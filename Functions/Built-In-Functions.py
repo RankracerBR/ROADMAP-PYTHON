@@ -271,3 +271,104 @@ adults = filter(MyFunc, ages)
 
 for x in adults:
     print(x)
+    
+#Return a floating point number constructed from a number or string x.
+a = float(7)
+print(a)
+b = float('3.14')
+print(b)
+c = float(" -2.5 ")
+print(c)
+d = float("6.02e23")
+print(d)
+e = float("Infinity")
+print(e)
+f = float("-inf")
+print(f)
+g = float("nan")
+print(g)  
+
+#Convert a value to a “formatted” representation, as controlled by format_spec. The interpretation of format_spec will depend on the type of the value argument; however, there is a standard formatting syntax that is used by most built-in types: Format Specification Mini-Language.
+x = 123.456 
+formatted_x = format(x,',.2f')
+print(formatted_x)
+
+#Return a new frozenset object, optionally with elements taken from iterable. frozenset is a built-in class
+animals = frozenset(['gato','cachorro','pássaro','hamster'])
+print(animals)
+
+#Return the value of the named attribute of object. name must be a string. If the string is the name of one of the object’s attributes, the result is the value of that attribute.
+class Person_2:
+    def __init__(self,name,age):
+        self.name = name 
+        self.age = age
+p = Person_2('Alice', 25)
+
+name = getattr(p,'name')
+print(name)
+
+age = getattr(p, 'age')
+print(age)
+
+#Return the dictionary implementing the current module namespace. For code within functions, this is set when the function is defined and remains the same regardless of where the function is called.
+def func():
+    a = 1
+    print(globals())
+func()
+
+#The arguments are an object and a string. The result is True if the string is the name of one of the object’s attributes, False if not. (This is implemented by calling getattr(object, name) and seeing whether it raises an AttributeError or not.)
+class Pessoa():
+    def __init__(self,nome,idade):
+        self.nome = nome 
+        self.idade = idade
+        
+p = Pessoa('João', 30)
+
+print(hasattr(p,'nome'))
+print(hasattr(p,'altura'))
+
+#Return the hash value of the object (if it has one). Hash values are integers. They are used to quickly compare dictionary keys during a dictionary lookup. Numeric values that compare equal have the same hash value (even if they are of different types, as is the case for 1 and 1.0).
+hash_value = hash('Hello World')
+print(f"hash value of 'Hello World': {hash_value}")
+
+my_list = [1,2,3,4,5]
+hash_value_2 = hash(tuple(my_list))
+print(f"hash value of 'my_list': {hash_value_2}")
+
+my_dict = {"a": 1, "b": 2, "c": 3}
+hash_value_3 = hash(frozenset(my_dict.items()))
+print(f"hash value of 'my_dict': {hash_value_3}")
+
+#Invoke the built-in help system. (This function is intended for interactive use.) If no argument is given, the interactive help system starts on the interpreter console. If the argument is a string, then the string is looked up as the name of a module, function, class, method, keyword, or documentation topic, and a help page is printed on the console.
+def sum(a,b):
+    """
+    This function sum two numbers
+    
+    Arguments:
+    a(int): The first number to sum
+    b(int): The second number to sum
+    
+    Return:
+    int: A sum of a and b
+    """
+    return a + b
+
+help(sum)
+
+#Convert an integer number to a lowercase hexadecimal string prefixed with “0x”. If x is not a Python int object, it has to define an __index__() method that returns an integer.
+# To obtain a hexadecimal string representation for a float, use the float.hex() method.
+num = 2022
+hex_sum = hex(num)
+print(hex_sum)
+
+#Return the “identity” of an object. This is an integer which is guaranteed to be unique and constant for this object during its lifetime. Two objects with non-overlapping lifetimes may have the same id() value.
+a = [1,2,3]
+b = a
+
+print(id(a))
+print(id(b))
+
+c = [1,2,3]
+print(id(c))
+
+#
