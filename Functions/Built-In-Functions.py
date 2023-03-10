@@ -371,4 +371,53 @@ print(id(b))
 c = [1,2,3]
 print(id(c))
 
+#Return the user value 
+name = input('What is your name?: ')
+print('Hello'+ name + '! Welcome :3')
+
+#Return an integer object constructed from a number or string x, or return 0 if no arguments are given. If x defines __int__(), int(x) returns x.__int__(). If x defines __index__(), it returns x.__index__(). If x defines __trunc__(), it returns x.__trunc__(). For floating point numbers, this truncates towards zero.
+z = int("1010", 2)
+print(z) # Saída: 10
+
+#The 'isinstance()' function in Python is used to determine if an object is an instance of a specified class or a subclass of that class
+class Myclass:
+    pass
+
+class MyDerivedClass(Myclass):
+    pass 
+
+obj1 = Myclass()
+obj2 = MyDerivedClass()
+
+print(isinstance(obj1, Myclass))
+print(isinstance(obj2, Myclass))
+print(isinstance(obj1, MyDerivedClass))
+print(isinstance(obj2, MyDerivedClass))
+print('\n')
+
+#The 'issubclass()' function takes two arguments: cls, which is the class that we want to check if it's a subclass of classinfo, and classinfo, which can be either a class or a tuple of classes.
+def issubclass(cls, classinfo):
+    if isinstance(classinfo, tuple):
+        return any(issubclass(cls,c) for c in classinfo)
+    elif isinstance(classinfo, type):
+        return issubclass(cls, classinfo.__base__) or cls is classinfo
+    else:
+        raise TypeError("issubclass() arg 2 must be a class or a tuple of classes")
+    
+#Return an iterator object. The first argument is interpreted very differently depending on the presence of the second argument.
+my_list = [1,2,3,4,5]
+
+my_iter = iter(my_list)
+
+while True:
+    try:
+        element = next(my_iter)
+        print(element)
+    except StopIteration:
+        break
+    
+#Return the length (the number of items) of an object. The argument may be a sequence (such as a string, bytes, tuple, list, or range) or a collection (such as a dictionary, set, or frozen set).
+text = "Hello World!"
+print(len(text))
+
 #
