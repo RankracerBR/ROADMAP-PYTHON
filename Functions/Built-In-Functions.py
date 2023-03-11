@@ -89,8 +89,8 @@ array_string = bytearray(string, 'utf-8')
 buffer = b'\x00\x01\x02'
 array_buffer = bytearray(buffer)
 
-list = [65,66,67]
-array_list = bytearray(list)
+list_ = [65,66,67]
+array_list = bytearray(list_)
 
 print(f'{empty_array}\n{array_string}\n{array_buffer}\n{array_list}')
 
@@ -102,8 +102,8 @@ print(bytes_obj[0])
 print(bytes_obj[1])
 print(bytes_obj[2])
 
-list = [72,101,108,108,11,44,32,119,111,114,108,100,33]
-bytes_obj2 = bytes(list)
+list_ = [72,101,108,108,11,44,32,119,111,114,108,100,33]
+bytes_obj2 = bytes(list_)
 print(bytes_obj2)
 
 #Return True if the object argument appears callable, False if not. If this returns True, it is still possible that a call fails, but if it is False, calling object will never succeed.
@@ -419,5 +419,56 @@ while True:
 #Return the length (the number of items) of an object. The argument may be a sequence (such as a string, bytes, tuple, list, or range) or a collection (such as a dictionary, set, or frozen set).
 text = "Hello World!"
 print(len(text))
+
+#Rather than being a function, list is actually a mutable sequence type, as documented in Lists and Sequence Types — list, tuple, range.
+my_string = '12345'
+print(list(my_string))
+
+#Update and return a dictionary representing the current local symbol table.
+def my_function():
+    name = 'Augusto'
+    age = 19
+    print(locals())
+
+my_function()
+print('\n')
+
+#Return an iterator that applies function to every item of iterable, yielding the results.
+def square(x):
+    return x ** 2
+
+my_list_ = [1,2,3,4,5]
+result = map(square, my_list_) 
+
+for item in result:
+    print(item)
+    
+print('\n')
+
+#Return the largest item in an iterable or the largest of two or more arguments.If multiple items are maximal, the function returns the first one encountered. This is consistent with other sort-stability preserving tools such as sorted(iterable, key=keyfunc, reverse=True)[0] and heapq.nlargest(1, iterable, key=keyfunc).
+numbers = [3,7,1,5,9,2]
+largest_num = max(numbers)
+print(f'The largest number in the list is: {largest_num}')
+
+words = ["apple","banana","orange","pear","grape"]
+longest_word = max(words, key=len)
+print(f'The longest word in the list is: {longest_word}')
+
+empty_list = []
+
+default_value = 'no items'
+
+max_value = max(empty_list, default=default_value)
+print(f'The max value is: {max_value}')
+
+#Return a “memory view” object created from the given argument. See Memory Views for more information.
+b = bytearray(b'hello world')
+m = memoryview(b)
+print(bytes(m))
+print('\n')
+
+#Return the smallest item in an iterable or the smallest of two or more arguments.If multiple items are minimal, the function returns the first one encountered.
+lower_value = min(5,3,8,2,10)
+print(f"The lowest value is: {lower_value}")
 
 #
