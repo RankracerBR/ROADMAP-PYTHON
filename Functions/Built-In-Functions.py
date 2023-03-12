@@ -471,4 +471,17 @@ print('\n')
 lower_value = min(5,3,8,2,10)
 print(f"The lowest value is: {lower_value}")
 
+#Retrieve the next item from the iterator by calling its __next__() method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised.
+my_iter_ = iter([1,2,3,4,5])
+print(next(my_iter_))
+
+#Return a new featureless object. object is a base for all classes. It has methods that are common to all instances of Python classes. This function does not accept any arguments.
+obj = object()
+print(type(obj))
+print('\n')
+#
+x = 10 
+octal_str = oct(x)
+print(octal_str)
+
 #
