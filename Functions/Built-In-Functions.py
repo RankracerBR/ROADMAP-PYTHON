@@ -223,7 +223,7 @@ fruits = ['Banana','Apple','Pineapple','Mango']
 for indice, fruit in enumerate(fruits):
     print(indice, fruit)
     
-#his function supports dynamic execution of Python code. object must be either a string or a code object. If it is a string, the string is parsed as a suite of Python statements which is then executed (unless a syntax error occurs).
+#This function supports dynamic execution of Python code. object must be either a string or a code object. If it is a string, the string is parsed as a suite of Python statements which is then executed (unless a syntax error occurs).
 expressions = ['2 + 3',' 5 * 7','10 / 2','8 - 4']
 results = []
 
