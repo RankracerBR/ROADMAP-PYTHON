@@ -485,3 +485,10 @@ octal_str = oct(x)
 print(octal_str)
 
 #
+try:
+    file = open('example.txt','r')
+    contents = file.read()
+    file.close()
+    print(contents)
+except OSError:
+    print("Could not open file")
