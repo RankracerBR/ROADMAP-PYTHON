@@ -479,12 +479,13 @@ print(next(my_iter_))
 obj = object()
 print(type(obj))
 print('\n')
-#
+
+#Convert an integer number to an octal string prefixed with “0o”. The result is a valid Python expression. If x is not a Python int object, it has to define an __index__() method that returns an integer.
 x = 10 
 octal_str = oct(x)
 print(octal_str)
-
-#
+print('\n')
+#Open file and return a corresponding file object. If the file cannot be opened, an OSError is raised. See Reading and Writing Files for more examples of how to use this function.
 try:
     file = open('example.txt','r')
     contents = file.read()
@@ -492,3 +493,9 @@ try:
     print(contents)
 except OSError:
     print("Could not open file")
+print('\n')
+#Given a string representing one Unicode character, return an integer representing the Unicode code point of that character.
+char1 = 'a'
+char2 = '€'
+print(ord(char1))
+print(ord(char2))
