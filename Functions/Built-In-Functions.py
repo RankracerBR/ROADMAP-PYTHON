@@ -499,3 +499,72 @@ char1 = 'a'
 char2 = '€'
 print(ord(char1))
 print(ord(char2))
+print('\n')
+
+#Return base to the power exp; if mod is present, return base to the power exp, modulo mod (computed more efficiently than pow(base, exp) % mod). The two-argument form pow(base, exp) is equivalent to using the power operator: base**exp.
+x = pow(2,5)
+print(x)
+
+y = pow(2,5,7)
+print(y)
+
+z = pow(-9,0.5)
+print(z)
+print('\n')
+
+#Return a property attribute. fget is a function for getting an attribute value. fset is a function for setting an attribute value. fdel is a function for deleting an attribute value. And doc creates a docstring for the attribute.
+class Circle:
+    def __init__(self, radius):
+        self.radius = radius 
+        
+    def radius(self):
+        """Get the radius of the circle"""
+        return self.radius
+    
+    def radius(self, value):
+        """Set the radius of the circle"""
+        if value < 0:
+            raise ValueError("Radius cannot be negative")
+        self.radius = value
+    
+    def radius(self):
+        """Delete the radius of the circle"""
+        del self.radius
+        
+c = Circle(5)
+print(c.radius)
+c.radius = 10
+print(c.radius)
+
+del c.radius 
+print(hasattr(c, 'radius'))
+print('\n')
+
+#Rather than being a function, range is actually an immutable sequence type, as documented in Ranges and Sequence Types — list, tuple, range.
+r = range(10)
+for i in r:
+    print(i, end=" ")
+    
+r2 = range(1,10,2)
+print(r2.index(7))
+print('\n')
+
+#
+class Point:
+    def __init__(self, x,y):
+        self.x = x 
+        self.y = y
+    
+    def __repr__(self):
+        return f"Point({self.x},{self.y})"
+    
+p = Point(1,2)
+print(repr(p))
+
+# Return a reverse iterator. seq must be an object which has a __reversed__() method or supports the sequence protocol (the __len__() method and the __getitem__() method with integer arguments starting at 0).
+my_list_3 = [1,2,3,4,5]
+
+for i in reversed(my_list_3):
+    print(i)
+    
+#
