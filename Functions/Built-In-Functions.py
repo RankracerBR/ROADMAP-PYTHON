@@ -1,5 +1,6 @@
 #Imports
 from asyncio import sleep,run
+import functools 
 #abs if receives a negative number it will return the distance of the positive number from the 0.
 class number_string:
     def __init__(self,value):
@@ -728,6 +729,26 @@ print(s2)
 
 s3 = Slice(step=3) 
 print(s3)
+
+print('\n')
+
+#Return a new sorted list from the items in iterable. Has two optional arguments which must be specified as keyword arguments.
+def sorted(iterable, /, *, key=None, reverse=False):
+    if key is not None:
+        key_func = functools.cmp_to_key(lambda x: key(x).lower())
+        iterable.sort(key=key_func, reverse=reverse)
+    else:
+        iterable.sort(reverse=reverse)
+    
+    return iterable
+
+my_list_5 = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+sorted_list = sorted(my_list_5)
+print(sorted_list)
+
+my_list_6 = ["apple","Banana","cherry","Durian"]
+sorted_list_2 =  sorted(my_list_6)
+print(sorted_list_2)
 
 print('\n')
 
