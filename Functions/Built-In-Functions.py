@@ -386,7 +386,7 @@ print(f"hash value of 'my_dict': {hash_value_3}")
 print('\n')
 
 #Invoke the built-in help system. (This function is intended for interactive use.) If no argument is given, the interactive help system starts on the interpreter console. If the argument is a string, then the string is looked up as the name of a module, function, class, method, keyword, or documentation topic, and a help page is printed on the console.
-def sum(a,b):
+def sum_(a,b):
     """
     This function sum two numbers
     
@@ -749,7 +749,55 @@ print(sorted_list)
 my_list_6 = ["apple","Banana","cherry","Durian"]
 sorted_list_2 =  sorted(my_list_6)
 print(sorted_list_2)
+print('\n')
 
+#Transform a method into a static method. A static method does not receive an implicit first argument, the @staticmethod form is a function decorator
+class MyClass_:
+    @staticmethod 
+    def my_static_method(arg1, arg2):
+        result = arg1 + arg2
+        return result
+
+result = MyClass_.my_static_method(10,20)
+print(result)
+print('\n')
+
+#Return a str version of object. See str() for details, str is the built-in string class.
+empty_str = str()
+print(empty_str)
+
+char_list = ['H','e','l','l','o']
+hello_str = str(char_list)
+print(hello_str)
+
+byte_str = b"Hello"
+hello_str_2 = str(byte_str, encoding="utf-8")
+print(hello_str_2)
+
+upper_str = "hello".upper()
+lower_str = "WORLD".lower()
+title_str = 'this is a title'.title()
+print(upper_str)
+print(lower_str)
+print(title_str)
+
+contains_o = "hello".__contains__("o")
+startswith_h = "world".startswith("h")
+endswith_d = "Python".endswith("d")
+print(contains_o)
+print(startswith_h)
+print(endswith_d)
+
+split_str = "apple,orange,banana".split(",")
+join_str = "-".join(["hello","world"])
+print(split_str)
+print(join_str)
+print('\n')
+
+#Sums start and the items of an iterable from left to right and returns the total. The iterable’s items are normally numbers, and the start value is not allowed to be a string.
+numbers = [1, 2, 3, 4, 5]
+total = sum(numbers, start=10)
+print(total)
 print('\n')
 
 #
