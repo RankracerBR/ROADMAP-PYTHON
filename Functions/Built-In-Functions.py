@@ -122,11 +122,11 @@ print('\n')
 def my_func():
     print('Hello, World!')
     
-class MyClass:
+class MyClass_1:
     def __call__(self):
         print('Hello from MyClass! :3')
 
-obj = MyClass()
+obj = MyClass_1()
 
 print(callable(my_func))
 print(callable(obj))
@@ -221,7 +221,7 @@ print(dicionario_3)
 print('\n')
 
 #If you pass an object as an argument to dir(), it will attempt to return a list of valid attributes for that object. This can be useful to inspect the attributes and methods available on an object, especially if you are working with an unfamiliar class or module.
-class MyClass:
+class MyClass_3:
     def __init__(self):
         self.myattr = 42
     
@@ -800,4 +800,93 @@ total = sum(numbers, start=10)
 print(total)
 print('\n')
 
+#Return a proxy object that delegates method calls to a parent or sibling class of type. This is useful for accessing inherited methods that have been overridden in a class.
+class Animal:
+    def __init__(self,name,age):
+        self.name = name 
+        self.age  = age
+
+    def make_sound(self):
+        print("The animal is barking!")
+
+class Dog(Animal):
+    def __init__(self,name,age,breed):
+        super().__init__(name,age)
+        self.breed = breed
+
+    def make_sound(self):
+        print("The dog is barking!")
+
+class Cat(Animal):
+    def __init__(self,name,age,color):
+        super().__init__(name,age)
+        self.color = color
+    
+    def make_sound(self):
+        print("The cat meows!")        
+
+dog = Dog("Rex",3, "Golden Retriever")
+cat = Cat("Whiskers",2,"Grey")
+
+dog.make_sound()
+cat.make_sound()
+print('\n')
+
+#Rather than being a function, tuple is actually an immutable sequence type
+empty_tuple = tuple()
+print(empty_tuple)
+
+my_tuple = ('apple','banana','orange')
+print(my_tuple)
+
+first_element = my_tuple[0]
+last_element = my_tuple[-1]
+print(first_element)
+print(last_element)
+print('\n')
+
+#With one argument, return the type of an object. The return value is a type object and generally the same object as returned by object.__class__.
+attrs = {'attr1': 1, 'attr2': 2}
+
+MyClass = type('MyClass', (), attrs)
+
+my_instance = MyClass()
+
+print(my_instance.attr1)
+print(my_instance.attr2)
+print('\n')
+
+#Return the __dict__ attribute for a module, class, instance, or any other object with a __dict__ attribute.
+class MyClass_:
+    def __init__(self,value):
+        self.value = value 
+        self.data = vars(self)
+        
+obj_1 = MyClass_(1)
+print(obj_1.data)
+
+obj_2 = MyClass_("Hello")
+print(obj_2.data)
+
+obj_3 = MyClass_([1,2,3])
+print(obj_3.data)
+print('\n')
+
+#Iterate over several iterables in parallel, producing tuples with an item from each one. More formally: zip() returns an iterator of tuples, where the i-th tuple contains the i-th element from each of the argument iterables.
+
+
+a = [1,2,3]
+b = ['a','b','c']
+c = [True,False,True]
+
+for x in zip(a,b,c, strict=True):
+    print(x)
+    
+d = [1,2,3]
+e = ['a','b','c','d']
+f = [True,False]
+
+for x in zip(a,b,c, strict=False):
+    print(x)
+    
 #
