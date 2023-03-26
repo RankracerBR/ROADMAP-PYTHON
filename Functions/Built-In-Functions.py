@@ -873,8 +873,6 @@ print(obj_3.data)
 print('\n')
 
 #Iterate over several iterables in parallel, producing tuples with an item from each one. More formally: zip() returns an iterator of tuples, where the i-th tuple contains the i-th element from each of the argument iterables.
-
-
 a = [1,2,3]
 b = ['a','b','c']
 c = [True,False,True]
@@ -888,5 +886,10 @@ f = [True,False]
 
 for x in zip(a,b,c, strict=False):
     print(x)
+
+print('\n')
     
-#
+#This function is invoked by the import statement. It can be replaced (by importing the builtins module and assigning to builtins.__import__) in order to change semantics of the import statement, but doing so is strongly discouraged as it is usually simpler to use import hooks.
+module_name = 'math'
+module = __import__(module_name)
+print(module.sqrt(16))
