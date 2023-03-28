@@ -35,7 +35,7 @@ except ZeroDivisionError as e:
     
     new_exception = ValueError("Something went wrong").with_traceback(tb) #
     
-    raise new_exception
+    print(new_exception)
 
 #Add the string note to the exception’s notes which appear in the standard traceback after the exception string. A TypeError is raised if note is not a string.
 class CustomException(Exception):
@@ -53,7 +53,8 @@ try:
 except CustomException as e:
     e.add_note("Additional information about the error")
     print(e)
-#
+    
+#A list of the notes of this exception, which were added with add_note(). This attribute is created when add_note() is called. New in version 3.11
 class MyException_2(Exception):
     def __init__(self, message):
         super().__init__(message)
@@ -64,3 +65,59 @@ class MyException_2(Exception):
             raise TypeError("note must be a string")
         self.__notes__.append(note)
         
+try:
+    raise MyException_2("Something went wrong")
+except MyException_2 as e:
+    e.add_note("Note 1")
+    e.add_note("Note 2")
+    print("Notes:", e.__notes__)
+    
+#All built-in, non-system-exiting exceptions are derived from this class. All user-defined exceptions should also be derived from this class.
+class MathError(Exception):
+    """Exception raised for errors in math operations."""
+    
+    def __init__(self, operation, operand1, operand2, message="Error in math operation"):
+        self.operation = operation
+        self.operand1 = operand1
+        self.operand2 = operand2
+        self.message = message
+        super().__init__(self.message)
+    
+    def __str__(self):
+        return f'{self.message}: {self.operation}({self.operand1}, {self.operand2})'
+
+def divide(a, b):
+    if b == 0:
+        raise MathError('divide', a, b, 'Division by zero')
+    else:
+        return a/b
+
+try:
+    result = divide(10, 0)
+except MathError as e:
+    print(e)
+
+#The base class for those built-in exceptions that are raised for various arithmetic errors: OverflowError, ZeroDivisionError, FloatingPointError.
+class MyArithmeticError(ArithmeticError):
+    pass
+
+def do_calculator(x, y):
+    try:
+        result = x / y 
+    except ZeroDivisionError:
+        raise MyArithmeticError("Division by zero is not allowed")
+    return result
+
+try: 
+    do_calculator(5,0)
+except MyArithmeticError as e:
+    print(f"Caught MyArithmeticError: {e}")
+   
+#Raised when a buffer related operation cannot be performed.
+try:
+    buffer = bytearray(10)
+    buffer[20] = 1
+except IndexError:
+    print("Error: buffer operation could not be performed due to an index out of range")
+
+#
