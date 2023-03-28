@@ -7,7 +7,7 @@ try:
     x = int(input("Type a negative number: "))
     if x < 0:
         raise ValueError("Negative numbers are not allowed >:3")
-except(ValueError, BaseException) as e:
+except(ValueError, BaseException) as e: ##
     print("Error: ",e)
     
 print('\n')
@@ -15,8 +15,8 @@ print('\n')
 #The tuple of arguments given to the exception constructor
 class MyException(Exception):
     def __init__(self,arg1,arg2):
-        self.arg1 = arg1
-        self.arg2 = arg2 
+        self.arg1 = arg1 #
+        self.arg2 = arg2 #
         super().__init__(f"MyException was raised with args: {arg1}, {arg2}")
         
 try: 
@@ -33,7 +33,7 @@ except ZeroDivisionError as e:
     
     tb = sys.exc_info()[2]
     
-    new_exception = ValueError("Something went wrong").with_traceback(tb)
+    new_exception = ValueError("Something went wrong").with_traceback(tb) #
     
     raise new_exception
 
@@ -43,7 +43,7 @@ class CustomException(Exception):
         self.notes = []
         super().__init__(message)
 
-    def add_note(self, note):
+    def add_note(self, note): #
         if not isinstance(note, str):
             raise TypeError("Note must be a string")
         self.notes.append(note)
@@ -52,6 +52,15 @@ try:
     raise CustomException("Something went wrong!")
 except CustomException as e:
     e.add_note("Additional information about the error")
-    raise e
-
+    print(e)
 #
+class MyException_2(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.__notes__ = []
+        
+    def add_note(self, note):
+        if not isinstance(note, str):
+            raise TypeError("note must be a string")
+        self.__notes__.append(note)
+        
