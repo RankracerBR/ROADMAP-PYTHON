@@ -9,7 +9,6 @@ try:
         raise ValueError("Negative numbers are not allowed >:3")
 except(ValueError, BaseException) as e: ##
     print("Error: ",e)
-    
 print('\n')
 
 #The tuple of arguments given to the exception constructor
@@ -23,7 +22,6 @@ try:
     raise MyException("value", "value2")    
 except MyException as e:
     print(f"Exception args: {e.args}")
-
 print('\n')
 
 #This method sets tb as the new traceback for the exception and returns the exception object. It was more commonly used before the exception chaining features of PEP 3134 became available.
@@ -36,6 +34,7 @@ except ZeroDivisionError as e:
     new_exception = ValueError("Something went wrong").with_traceback(tb) #
     
     print(new_exception)
+print('\n')
 
 #Add the string note to the exception’s notes which appear in the standard traceback after the exception string. A TypeError is raised if note is not a string.
 class CustomException(Exception):
@@ -53,7 +52,8 @@ try:
 except CustomException as e:
     e.add_note("Additional information about the error")
     print(e)
-    
+print('\n')
+
 #A list of the notes of this exception, which were added with add_note(). This attribute is created when add_note() is called. New in version 3.11
 class MyException_2(Exception):
     def __init__(self, message):
@@ -71,7 +71,8 @@ except MyException_2 as e:
     e.add_note("Note 1")
     e.add_note("Note 2")
     print("Notes:", e.__notes__)
-    
+print('\n')
+
 #All built-in, non-system-exiting exceptions are derived from this class. All user-defined exceptions should also be derived from this class.
 class MathError(Exception):
     """Exception raised for errors in math operations."""
@@ -96,6 +97,7 @@ try:
     result = divide(10, 0)
 except MathError as e:
     print(e)
+print('\n')
 
 #The base class for those built-in exceptions that are raised for various arithmetic errors: OverflowError, ZeroDivisionError, FloatingPointError.
 class MyArithmeticError(ArithmeticError):
@@ -112,12 +114,47 @@ try:
     do_calculator(5,0)
 except MyArithmeticError as e:
     print(f"Caught MyArithmeticError: {e}")
-   
+print('\n')
+
 #Raised when a buffer related operation cannot be performed.
 try:
     buffer = bytearray(10)
     buffer[20] = 1
 except IndexError:
     print("Error: buffer operation could not be performed due to an index out of range")
+print('\n')
+
+#The base class for the exceptions that are raised when a key or index used on a mapping or sequence is invalid: IndexError, KeyError. This can be raised directly by codecs.lookup().
+class InvalidKeyError(LookupError):
+    pass
+
+class InvalidIndexError(LookupError):
+    pass
+
+def get_value(my_list,index):
+    try:
+        return my_list[index]
+    except IndexError:
+        raise InvalidIndexError(f"Invalid Index: {index}")
+
+my_list = [1,2,3]
+index = 5 
+
+try: 
+    value = get_value(my_list,index)
+except InvalidIndexError as e:
+    print(str(e))
+print('\n')
+   
+#Raised when an assert statement fails.
+def divide(a,b):
+    assert b != 0, "'b' cannot be zero" #assert verify the cases
+    return a / b
+
+try: 
+    result = divide(10,0)
+except AssertionError as e:
+    print(str(e))
+print('\n')
 
 #
