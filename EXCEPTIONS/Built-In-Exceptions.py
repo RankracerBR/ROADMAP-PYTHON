@@ -1,6 +1,7 @@
 #Imports 
 
 import sys 
+import math
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -62,7 +63,7 @@ class MyException_2(Exception):
         
     def add_note(self, note):
         if not isinstance(note, str):
-            raise TypeError("note must be a string")
+            raise TypeError("note must be a string") ##
         self.__notes__.append(note)
         
 try:
@@ -74,7 +75,7 @@ except MyException_2 as e:
 print('\n')
 
 #All built-in, non-system-exiting exceptions are derived from this class. All user-defined exceptions should also be derived from this class.
-class MathError(Exception):
+class MathError(Exception): ##
     """Exception raised for errors in math operations."""
     
     def __init__(self, operation, operand1, operand2, message="Error in math operation"):
@@ -89,7 +90,7 @@ class MathError(Exception):
 
 def divide(a, b):
     if b == 0:
-        raise MathError('divide', a, b, 'Division by zero')
+        raise MathError('divide', a, b, 'Division by zero') ##
     else:
         return a/b
 
@@ -106,7 +107,7 @@ class MyArithmeticError(ArithmeticError):
 def do_calculator(x, y):
     try:
         result = x / y 
-    except ZeroDivisionError:
+    except ZeroDivisionError: ##
         raise MyArithmeticError("Division by zero is not allowed")
     return result
 
@@ -118,17 +119,17 @@ print('\n')
 
 #Raised when a buffer related operation cannot be performed.
 try:
-    buffer = bytearray(10)
+    buffer = bytearray(10) ##
     buffer[20] = 1
 except IndexError:
     print("Error: buffer operation could not be performed due to an index out of range")
 print('\n')
 
 #The base class for the exceptions that are raised when a key or index used on a mapping or sequence is invalid: IndexError, KeyError. This can be raised directly by codecs.lookup().
-class InvalidKeyError(LookupError):
+class InvalidKeyError(LookupError): ##
     pass
 
-class InvalidIndexError(LookupError):
+class InvalidIndexError(LookupError):##
     pass
 
 def get_value(my_list,index):
@@ -145,7 +146,7 @@ try:
 except InvalidIndexError as e:
     print(str(e))
 print('\n')
-   
+
 #Raised when an assert statement fails.
 def divide(a,b):
     assert b != 0, "'b' cannot be zero" #assert verify the cases
@@ -156,5 +157,45 @@ try:
 except AssertionError as e:
     print(str(e))
 print('\n')
+
+#Raised when an attribute reference (see Attribute references) or assignment fails. (When an object does not support attribute references or attribute assignments at all, TypeError is raised.)
+class MyClass:
+    def __init__(self, name):
+        self.name = name 
+        
+my_object = MyClass("Jhon")
+
+try:
+    my_object.age
+except AttributeError as e:
+    print(str(e))
+print('\n')
+
+#Not currently used.
+try:
+    resultado = 1.0 / 0.0 
+    if math.isnan(resultado):
+        raise FloatingPointError("Operand result is NaN")
+except FloatingPointError as e:
+    print("A error occured on the floating point: ",e)
+except Exception as e:
+    print("Occured an error: ",e)
+print('\n')
+
+#Raised when a generator or coroutine is closed; see generator.close() and coroutine.close(). It directly inherits from BaseException instead of Exception since it is technically not an error.
+def my_generator(stop_value):
+    for i in range(10):
+        if i == stop_value:
+            print("Closing the generator")
+            raise GeneratorExit
+        yield i
+
+try:
+    gen = my_generator(5) 
+    for item in gen:
+        print(item)
+        
+except GeneratorExit:
+    print("Generator Closing.")
 
 #
