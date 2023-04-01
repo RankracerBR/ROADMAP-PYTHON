@@ -197,5 +197,31 @@ try:
         
 except GeneratorExit:
     print("Generator Closing.")
+print('\n')
+
+#Raised when the import statement has troubles trying to load a module. Also raised when the “from list” in from ... import has a name that cannot be found.The name and path attributes can be set using keyword-only arguments to the constructor.
+try:
+    import my_module
+except ImportError as e:
+    print("Import Error:", e)
+print('\n')
+
+#A subclass of ImportError which is raised by import when a module could not be located. It is also raised when None is found in sys.modules.New in version 3.6.
+try:
+    if "my_module" in sys.modules:
+        sys.modules["my_module"] = None 
+    import my_module 
+except ModuleNotFoundError as e:
+    print("Import error:",e)
+print('\n')
+
+#Raised when a sequence subscript is out of range. (Slice indices are silently truncated to fall in the allowed range; if an index is not an integer, TypeError is raised.)
+my_list_2 = [1,2,3]
+
+try:
+    print(my_list_2[3])
+except IndexError as e:
+    print("Index error:",e)
+print('\n')
 
 #
