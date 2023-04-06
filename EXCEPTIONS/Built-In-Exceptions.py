@@ -2,6 +2,7 @@
 
 import sys 
 import math
+import time
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -223,5 +224,45 @@ try:
 except IndexError as e:
     print("Index error:",e)
 print('\n')
+
+#Raised when a mapping (dictionary) key is not found in the set of existing keys.
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+value = my_dict.get('d','Key not found')
+print(value)
+
+#Raised when the user hits the interrupt key (normally Control-C or Delete). During execution, a check for interrupts is made regularly. The exception inherits from BaseException so as to not be accidentally caught by code that catches Exception and thus prevent the interpreter from exiting.
+try:
+    for i in range(10):
+        print(f"Running steps {i+1}...")
+        time.sleep(1) # espera por 1 segundo
+except KeyboardInterrupt:
+    print("\nThe program was interrupt by the user :3")
+    
+#Raised when an operation runs out of memory but the situation may still be rescued (by deleting some objects).
+try:
+    big_list = [1] * (10**9)
+except MemoryError as e:
+    print(f'Memory error: {e}')
+    
+#Raised when a local or global name is not found. This applies only to unqualified names. The associated value is an error message that includes the name that could not be found.
+def geek_message():
+    try:
+        geek = "GeeksforGeeks"
+        return geeksforgeeks
+    except NameError:
+        return "NameError occured. Some variable isn't defined."
+
+print(geek_message())
+
+#This exception is derived from RuntimeError. In user defined base classes, abstract methods should raise this exception when they require derived classes to override the method, or while the class is being developed to indicate that the real implementation still needs to be added.
+def get(self):
+        raise NotImplementedError() 
+
+#This exception is raised when a system function returns a system-related error, including I/O failures such as “file not found” or “disk full” (not for illegal argument types or other incidental errors).
+try:
+    with open('/only_reading/file.txt', 'w') as f:
+        f.write('conteúdo')
+except OSError as e:
+    print(f'Error: {e.strerror}. Code Error: {e.errno}')
 
 #
