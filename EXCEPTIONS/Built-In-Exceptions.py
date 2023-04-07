@@ -1,8 +1,10 @@
 #Imports 
-
 import sys 
 import math
 import time
+import errno
+import os
+import weakref
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -229,6 +231,7 @@ print('\n')
 my_dict = {'a': 1, 'b': 2, 'c': 3}
 value = my_dict.get('d','Key not found')
 print(value)
+print('\n')
 
 #Raised when the user hits the interrupt key (normally Control-C or Delete). During execution, a check for interrupts is made regularly. The exception inherits from BaseException so as to not be accidentally caught by code that catches Exception and thus prevent the interpreter from exiting.
 try:
@@ -237,13 +240,14 @@ try:
         time.sleep(1) # espera por 1 segundo
 except KeyboardInterrupt:
     print("\nThe program was interrupt by the user :3")
-    
+print('\n')   
 #Raised when an operation runs out of memory but the situation may still be rescued (by deleting some objects).
 try:
     big_list = [1] * (10**9)
 except MemoryError as e:
     print(f'Memory error: {e}')
-    
+print('\n')
+  
 #Raised when a local or global name is not found. This applies only to unqualified names. The associated value is an error message that includes the name that could not be found.
 def geek_message():
     try:
@@ -251,12 +255,13 @@ def geek_message():
         return geeksforgeeks
     except NameError:
         return "NameError occured. Some variable isn't defined."
-
 print(geek_message())
+print('\n')
 
 #This exception is derived from RuntimeError. In user defined base classes, abstract methods should raise this exception when they require derived classes to override the method, or while the class is being developed to indicate that the real implementation still needs to be added.
 def get(self):
         raise NotImplementedError() 
+print('\n')
 
 #This exception is raised when a system function returns a system-related error, including I/O failures such as “file not found” or “disk full” (not for illegal argument types or other incidental errors).
 try:
@@ -264,5 +269,84 @@ try:
         f.write('conteúdo')
 except OSError as e:
     print(f'Error: {e.strerror}. Code Error: {e.errno}')
+print('\n')
+
+#A numeric error code from the C variable errno.
+try:
+    f = open('non_existent_file.tx','r')
+except OSError as e:
+   if e.errno == errno.ENOENT:
+       print('File not found')
+   else:
+       print('Unknown error ocurred!')
+print('\n')
+
+#Under Windows, this gives you the native Windows error code. The errno attribute is then an approximate translation, in POSIX terms, of that native error code.
+try:
+    os.rename("original.txt","copy.txt")
+except OSError as e:
+    if hasattr(e,'winerror'):
+        print(f'Native windows error: {e.winerror}')
+    else:
+        print(f'OS error: {e}')
+print('\n')
+
+#The corresponding error message, as provided by the operating system. It is formatted by the C functions perror() under POSIX, and FormatMessage() under Windows.
+try:
+    f = open('nonexistent_file.txt','r')
+except OSError as e:
+    print(f'Number Error: {e.errno}')
+    print(f'Message Error: {e.strerror}')
+print('\n')
+
+#For exceptions that involve a file system path (such as open() or os.unlink()), filename is the file name passed to the function. For functions that involve two file system paths (such as os.rename()), filename2 corresponds to the second file name passed to the function.
+try:
+    os.remove('file.txt')
+except OSError as e:
+    print(f'Error {e.errno}: {e.strerror}')
+    print(f'Filename: {e.filename}')
+print('\n')
+
+#Raised when the result of an arithmetic operation is too large to be represented. This cannot occur for integers (which would rather raise MemoryError than give up). However, for historical reasons, OverflowError is sometimes raised for integers that are outside a required range.
+value_ = 5.0 
+
+try:
+    for i in range(1, 1000):
+        value_ = value_**i
+        print(value_)
+except OverflowError as e:
+    print("Overflow error happened")
+    print(f'{e}, {e.__class__}')
+print('\n')
+
+#This exception is derived from RuntimeError. It is raised when the interpreter detects that the maximum recursion depth (see sys.getrecursionlimit()) is exceeded. New in version 3.5: Previously, a plain RuntimeError was raised.
+def recursive_function(count):
+    if count == 0:
+        return
+    recursive_function(count - 1)
+    
+try:
+    recursive_function(sys.getrecursionlimit() + 1)
+except RecursionError as e:
+    print("Recursion error happened")
+    print(f'{e}: {e.__class__}')
+print('\n')
+
+#This exception is raised when a weak reference proxy, created by the weakref.proxy() function, is used to access an attribute of the referent after it has been garbage collected. For more information on weak references, see the weakref module.
+class ExpensiveObject(object):
+    def __del__(self):
+        print('(Deleting %s)' % self)
+
+obj = ExpensiveObject
+r = weakref.ref(obj)
+
+print('obj: ',obj)
+print('ref: ',r)  
+print('r(): ',r())  
+
+print('Deleting obj')  
+del obj
+print('r(): ',r()) 
+print('\n')
 
 #
