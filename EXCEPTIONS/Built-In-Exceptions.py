@@ -349,4 +349,19 @@ del obj
 print('r(): ',r()) 
 print('\n')
 
+#Raised when an error is detected that doesn’t fall in any of the other categories. The associated value is a string indicating what precisely went wrong.
+def calculate_discount(price,discount):
+    if discount > 1 or discount < 0:
+        raise RuntimeError("Invalid discount value, must be between 0 and 1.")
+    return price * (1 - discount)
+
+try:
+    calculate_discount(100,1.5)
+except RuntimeError as e:
+    print(f"Error: {e}")
+    
 #
+def example_iterator():
+    items = [1,2,3]
+    for item in items:
+        yield item
