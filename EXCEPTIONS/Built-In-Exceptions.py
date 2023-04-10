@@ -5,6 +5,7 @@ import time
 import errno
 import os
 import weakref
+import asyncio
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -359,9 +360,54 @@ try:
     calculate_discount(100,1.5)
 except RuntimeError as e:
     print(f"Error: {e}")
-    
-#
+print('\n')
+
+#Raised by built-in function next() and an iterator's __next__() method to signal that there are no further items produced by the iterator.
 def example_iterator():
     items = [1,2,3]
     for item in items:
         yield item
+
+my_iterator = example_iterator()
+
+try:
+    while True:
+        item = next(my_iterator)
+        print(item)
+except StopIteration:
+    print("End of iteration")
+print('\n')
+
+#Must be raised by __anext__() method of an asynchronous iterator object to stop the iteration. New in version 3.5.
+async def async_range(stop):
+    for i in range(stop):
+        yield i
+        await asyncio.sleep(0.1)
+
+async def main():
+    async for i in async_range(10):
+        print(i)
+        if i == 5:
+            raise StopAsyncIteration
+
+try:
+    asyncio.run(main())
+except StopAsyncIteration:
+    print("Async iteration stopped.")
+print('\n')
+    
+#The name of the file the syntax error occurred in.
+try:
+    exec("print('Hello,world!'")
+except SyntaxError as e:
+    print(f'SyntaxError: {e.msg}')
+    print(f'Ocurred in file {e.filename} at line {e.lineno}')
+print('\n')
+
+#Which line number in the file the error occurred in. This is 1-indexed: the first line in the file has a lineno of 1.
+try:
+    exec('for i in range(10): print(i')
+except SyntaxError as e:
+    print(f'Syntax error ocurred in {e.filename} at line {e.lineno}: {e.msg}')
+
+#
