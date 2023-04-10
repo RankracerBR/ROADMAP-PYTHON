@@ -6,6 +6,7 @@ import errno
 import os
 import weakref
 import asyncio
+import ast
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -409,5 +410,36 @@ try:
     exec('for i in range(10): print(i')
 except SyntaxError as e:
     print(f'Syntax error ocurred in {e.filename} at line {e.lineno}: {e.msg}')
+print('\n')
+
+#The column in the line where the error occurred. This is 1-indexed: the first character in the line has an offset of 1.
+try:
+    eval("print'Hello, world!'")
+except SyntaxError as e:
+    print(f"Syntax error in {e.filename} at line {e.lineno}, column {e.offset}: {e.msg}")
+print('\n')
+
+#The source code text involved in the error.
+try:
+    exec("x = 1 2")
+except SyntaxError as e:
+    print(f'Syntax error on line {e.lineno} in {e.filename}: {e.msg}')
+    print(f'Offending code: {e.text.strip()}')
+print('\n')
+
+#Which line number in the file the error occurred ends in. This is 1-indexed: the first line in the file has a lineno of 1.
+def parse_code(code_str):
+    try:
+        parsed = ast.parse(code_str)
+    except SyntaxError as e:
+        print("Syntax error in file '{}', line {}, col {}: {}".format(e.filename, e.lineno, e.offset, e.msg))
+        print("Code excerpt:\n{}\n".format(e.text.strip()))
+        print("Ends in line {}\n".format(e.end_lineno))
+
+code_with_syntax_error = "x = 10\nif x = 5:\n    print('x is 5')"
+parse_code(code_with_syntax_error)
+print('\n')
+
+#The column in the end line where the error occurred finishes. This is 1-indexed: the first character in the line has an offset of 1.
 
 #
