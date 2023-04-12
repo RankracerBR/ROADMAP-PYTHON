@@ -441,5 +441,25 @@ parse_code(code_with_syntax_error)
 print('\n')
 
 #The column in the end line where the error occurred finishes. This is 1-indexed: the first character in the line has an offset of 1.
+try:
+    eval("x = 5 + 2 1")
+except SyntaxError as e:
+    print(f'Syntax Error: {e.text.strip()}')
+    print(f'File: {e.filename}')
+    print(f'Line: {e.lineno}, Column: {e.offset}')
+    print(f'End of line: {e.end_lineno}, End of Column: {e.end_offset} ')
+print('\n')
+
+#Base class for syntax errors related to incorrect indentation. This is a subclass of SyntaxError.
+def my_function():
+    raise IndentationError("Indentation error ocurred")
+
+try:
+    my_function()
+except IndentationError as e:
+    print("Indentation error:", e)
+except Exception as e:
+    print("Other exception:", e)
+print("\n")
 
 #
