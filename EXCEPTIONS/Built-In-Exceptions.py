@@ -462,4 +462,70 @@ except Exception as e:
     print("Other exception:", e)
 print("\n")
 
+#Raised when indentation contains an inconsistent use of tabs and spaces. This is a subclass of IndentationError.
+def my_function_2():
+    raise TabError("TabError occured")
+
+try:
+    my_function_2()
+except TabError as e:
+    print("TabError: ",e)
+print('\n')
+
+#Raised when the interpreter finds an internal error, but the situation does not look so serious to cause it to abandon all hope. The associated value is a string indicating what went wrong (in low-level terms).
+try:
+    x = 2 + 2
+    if x == 4:
+        raise SystemError("Something went wrong in the interpreter")
+except SystemError as e:
+    print("Oops! SystemError Ocurred:", e)
+print('\n')
+
+#This exception is raised by the sys.exit() function. It inherits from BaseException instead of Exception so that it is not accidentally caught by code that catches Exception. This allows the exception to properly propagate up and cause the interpreter to exit. When it is not handled, the Python interpreter exits; no stack traceback is printed.
+try:
+    sys.exit(0)
+except SystemExit as e:
+    print("Exited with:", e.code)
+print('\n')
+
+#The exit status or error message that is passed to the constructor. (Defaults to None.)
+try:
+    sys.exit(42)
+except SystemExit as e:
+    print("Exit code:", e.code)
+print('\n')
+
+#Raised when an operation or function is applied to an object of inappropriate type. The associated value is a string giving details about the type mismatch.
+def multiply_numbers(a, b):
+    if not isinstance(a, int) or not isinstance(b, int):
+        raise TypeError("Both arguments should be integers")
+    return a * b
+
+try:
+    result = multiply_numbers(2, '3')
+except TypeError as e:
+    print("TypeError:", e)
+print('\n')
+
+#Raised when a reference is made to a local variable in a function or method, but no value has been bound to that variable. This is a subclass of NameError.
+def my_calculation():
+    try:
+        x += 1
+    except UnboundLocalError:
+        print("The variable x was called before the attribution")
+        
+my_calculation()
+print('\n')
+
+#Raised when a Unicode-related encoding or decoding error occurs. It is a subclass of ValueError. UnicodeError has attributes that describe the encoding or decoding error. For example, err.object[err.start:err.end] gives the particular invalid input that the codec failed on.
+try:
+    s = "Hello, world!🌍"
+    b = s.encode('ascii')
+except UnicodeError as err:
+    print(f'Error to codify the string: {err}')
+    print(f'The invalid input is: {err.object[err.start:err.end]}.') #the invalid therm 
+else:
+    print(f'The string was codified with sucess: {b}')
+print('\n')
+
 #
