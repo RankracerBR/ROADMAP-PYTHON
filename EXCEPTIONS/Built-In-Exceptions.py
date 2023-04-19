@@ -528,4 +528,30 @@ else:
     print(f'The string was codified with sucess: {b}')
 print('\n')
 
+#The name of the encoding that raised the error.
+s = 'Hello, World! 🐍\n🐍'
+
+try:
+    s.encode('ascii')
+except UnicodeError as error:
+    print('Codify error: ',error.encoding)
+print('\n')
+
+#A string describing the specific codec error
+try:
+    b = b'\xe9'
+    b.decode("ascii")
+except UnicodeError as error:
+    print("Description error of codec: ", error.reason)
+print('\n')
+
+#The object the codec was attempting to encode or decode.
+s = "🤖"
+try:
+    s.encode('ascii')
+except UnicodeError as error:
+    print('Codify error for the object: ', error.object)
+print('\n')
+
 #
+
