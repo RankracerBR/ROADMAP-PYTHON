@@ -7,6 +7,7 @@ import os
 import weakref
 import asyncio
 import ast
+import numpy as np
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -553,5 +554,24 @@ except UnicodeError as error:
     print('Codify error for the object: ', error.object)
 print('\n')
 
-#
+#Raised when a Unicode-related error occurs during encoding. It is a subclass of UnicodeError.
+my_string = "Hello, world!\ud83c"
 
+try:
+    my_string.encode('utf-8')
+except UnicodeEncodeError as error:
+    print("An error occured during the codification string:", error)
+    print("The first valid index is:", error.start)
+    print("The last invalid index: ",error.end)
+print('\n')
+
+#
+my_bytes = b'\xc3\x28'
+
+try:
+    my_bytes.decode('utf-8')
+except UnicodeDecodeError as error:
+    print('An error occured during the decodification of the bytes sequence: ',error)
+print('\n')
+
+#
