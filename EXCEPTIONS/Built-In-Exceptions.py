@@ -8,6 +8,7 @@ import weakref
 import asyncio
 import ast
 import numpy as np
+import socket
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -574,4 +575,39 @@ except UnicodeDecodeError as error:
     print('An error occured during the decodification of the bytes sequence: ',error)
 print('\n')
 
+#Raised when the second argument of a division or modulo operation is zero. The associated value is a string indicating the type of the operands and the operation.
+try:
+    result = 10/ 0
+except ZeroDivisionError:
+    print("Oops! Division by zero isn't allowed")
+print('\n')
+
+print('>>The following exceptions are kept for compatibility with previous versions; starting from Python 3.3, they are aliases of OSError.')
+
+try:
+    file = open('non_existent_file.txt',"r")
+except EnvironmentError as e:
+    print("An error ocurred:", e)
+
+try:
+    file = open("non_existent_file.txt", "r")
+except IOError as e:
+    print("An I/O error occurred: ", e)
+
+# Only available on Windows.
+try:
+    os.startfile("non_existent_file.txt")
+except WindowsError as e:
+    print("A Windows error ocurred:", e)
+print('\n')
+print('\n')
+
 #
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+s.setblocking(False)
+
+try:
+    s.connect(('12.0.0.1',8888))
+except BlockingIOError as e:
+    print(f'BlockingIOError occurred: {e}')
