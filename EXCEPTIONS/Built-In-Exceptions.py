@@ -9,6 +9,7 @@ import asyncio
 import ast
 import numpy as np
 import socket
+import io
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -602,7 +603,7 @@ except WindowsError as e:
 print('\n')
 print('\n')
 
-#
+#Raised when an operation would block on an object (e.g. socket) set for non-blocking operation. Corresponds to errno EAGAIN, EALREADY, EWOULDBLOCK and EINPROGRESS.
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 s.setblocking(False)
@@ -611,3 +612,70 @@ try:
     s.connect(('12.0.0.1',8888))
 except BlockingIOError as e:
     print(f'BlockingIOError occurred: {e}')
+print('\n')
+
+#In addition to those of OSError, BlockingIOError can have one more attribute:
+
+#An integer containing the number of characters written to the stream before it blocked. This attribute is available when using the buffered I/O classes from the io module.
+try:
+    with io.StringIO() as file:
+        file.write("Hello World")
+        print(file.read())
+        print(f"Charaters written: {file.characters_written}")
+except AttributeError:
+    print("AttributeError: 'StringIO' object has no attribute 'characters_written'")
+print('\n')
+
+#Raised when an operation on a child process failed. Corresponds to errno ECHILD.
+try:
+    os.waitpid(99999,0)
+except ChildProcessError as e:
+    print("Error: ",e)
+print('\n')
+
+#A base class for connection-related issues. Subclasses are BrokenPipeError, ConnectionAbortedError, ConnectionRefusedError and ConnectionResetError.
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(('localhost',8888))
+except ConnectionError as e:
+    print('An error occured in connection:', e)
+print('\n')
+
+#A subclass of ConnectionError, raised when trying to write on a pipe while the other end has been closed, or trying to write on a socket which has been shutdown for writing. Corresponds to errno EPIPE and ESHUTDOWN.
+def send_message(message):
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(('localhost', 9999))
+        s.send(message.encode())
+    except BrokenPipeError:
+        print('Error: BrokenPipeError - Connection was closed')
+    except ConnectionRefusedError:
+        print('Error: ConnectionRefusedError - Connection was refused')
+    
+send_message('Hello, world!')
+print('\n')
+
+#A subclass of ConnectionError, raised when a connection attempt is aborted by the peer. Corresponds to errno ECONNABORTED.
+HOST = 'localhost'
+PORT = 8080
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    try:
+        s.connect((HOST, PORT))
+    except ConnectionAbortedError:
+        print("Connection error: aborted connection by the server.")
+    except ConnectionRefusedError:
+        print("Erro ao conectar: conexão recusada pelo servidor.")
+    except Exception as e:
+        print(f"Erro ao conectar: {e}")
+print('\n')
+
+#A subclass of ConnectionError, raised when a connection attempt is refused by the peer. Corresponds to errno ECONNREFUSED.
+HOST = 'localhost'
+PORT = 8080
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    try:
+        s.connect((HOST, PORT))
+    except ConnectionRefusedError:
+        print("Error during the connection: connection was refused to the server.")
