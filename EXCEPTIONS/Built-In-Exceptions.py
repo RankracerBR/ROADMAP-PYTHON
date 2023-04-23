@@ -678,4 +678,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     try:
         s.connect((HOST, PORT))
     except ConnectionRefusedError:
-        print("Error during the connection: connection was refused to the server.")
+        print("Error during the connection: connection was refused from server.")
