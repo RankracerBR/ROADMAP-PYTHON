@@ -606,7 +606,7 @@ class Circle:
     def radius(self):
         """Delete the radius of the circle"""
         del self.radius
-        
+
 c = Circle(5)
 print(c.radius)
 c.radius = 10

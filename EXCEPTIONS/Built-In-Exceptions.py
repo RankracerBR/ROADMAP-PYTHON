@@ -10,6 +10,7 @@ import ast
 import numpy as np
 import socket
 import io
+import signal
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -665,9 +666,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     except ConnectionAbortedError:
         print("Connection error: aborted connection by the server.")
     except ConnectionRefusedError:
-        print("Erro ao conectar: conexão recusada pelo servidor.")
+        print("Connection error: conexão recusada pelo servidor.")
     except Exception as e:
-        print(f"Erro ao conectar: {e}")
+        print(f"Connection error: {e}")
 print('\n')
 
 #A subclass of ConnectionError, raised when a connection attempt is refused by the peer. Corresponds to errno ECONNREFUSED.
@@ -679,3 +680,48 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
     except ConnectionRefusedError:
         print("Error during the connection: connection was refused from server.")
+print('\n')
+
+#Raised when trying to create a file or directory which already exists. Corresponds to errno EEXIST.
+try:
+    os.mkdir("example")
+    os.mkdir("example")
+except FileExistsError:
+    print(f"The directory already exist")
+print('\n')
+
+#Raised when a file or directory is requested but doesn’t exist. Corresponds to errno ENOENT.
+try:
+    with open("non_existent_file.txt") as f:
+        contents = f.read()
+except FileNotFoundError:
+    print("File not found!")
+print('\n')
+
+#Raised when a system call is interrupted by an incoming signal. Corresponds to errno EINTR. Changed in version 3.5: Python now retries system calls when a syscall is interrupted by a signal, except if the signal handler raises an exception (see PEP 475 for the rationale), instead of raising InterruptedError.
+try:
+    time.sleep(10)
+except InterruptedError:
+    print("The operation was interrupted by a signal")
+print('\n')
+
+#Raised when a file operation (such as os.remove()) is requested on a directory. Corresponds to errno EISDIR
+directory = "test_directory"
+
+if os.path.exists(directory):
+    print(f"{directory} already exists, skipping creation")
+else:
+    os.mkdir(directory)
+
+try:
+    with open(directory, "r") as file:
+        data = file.read()
+except IsADirectoryError:
+    print(f"{directory} is a directory, cannot read from it")
+except PermissionError:
+    print(f"Creation denied")
+finally:
+    os.rmdir(directory)
+print('\n')
+
+#
