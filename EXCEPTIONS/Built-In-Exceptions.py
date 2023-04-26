@@ -11,6 +11,9 @@ import numpy as np
 import socket
 import io
 import signal
+import requests
+import subprocess
+import warnings
 
 #The base class for all built-in exceptions. It is not meant to be directly inherited by user-defined classes (for that, use Exception). If str() is called on an instance of this class, the representation of the argument(s) to the instance are returned, or the empty string when there were no arguments.
 try:
@@ -722,6 +725,74 @@ except PermissionError:
     print(f"Creation denied")
 finally:
     os.rmdir(directory)
+print('\n')
+
+#Raised when a directory operation (such as os.listdir()) is requested on something which is not a directory. On most POSIX platforms, it may also be raised if an operation attempts to open or traverse a non-directory file as if it were a directory. Corresponds to errno ENOTDIR.
+try:
+    files = os.listdir("myfile.txt")
+except FileNotFoundError:
+    print("File not found")
+except NotADirectoryError as e:
+    print(f"Erro: {e}")
+print('\n')
+
+#Raised when trying to run an operation without the adequate access rights - for example filesystem permissions. Corresponds to errno EACCES, EPERM, and ENOTCAPABLE.
+filename = "example.txt"
+directory = "/root/"
+
+try:
+    with open(os.path.join(directory, filename), "w") as file:
+        file.write("Hello, World!")
+except PermissionError:
+    print(f"Failed to create {filename} in {directory}: Permission denied!")
+except FileNotFoundError:
+    print("File not found.... again!")
+print('\n')
+
+#exception ProcessLookupError Raised when a given process doesn’t exist. Corresponds to errno ESRCH.
+process_name = "notepad.exe"
+try:
+    output = subprocess.check_output(f"tasklist /FI \"IMAGENAME eq {process_name}\"", shell=True)
+    if process_name.encode() in output:
+        print(f"O processo {process_name} está em execução.")
+    else:
+        raise ProcessLookupError(f"O processo {process_name} não está em execução.")
+except subprocess.CalledProcessError:
+    raise ProcessLookupError("Não foi possível obter a lista de processos.")
+except ProcessLookupError:
+    print("ProcessLookupError: error")
+print("\n")
+
+#Raised when a system function timed out at the system level. Corresponds to errno ETIMEDOUT.
+server_address = ('localhost',8080)
+timeout = 5
+
+try:
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.settimeout(timeout)
+    
+    client_socket.connect(server_address)
+    
+    print("Connection Succeed")
+except socket.timeout:
+    raise TimeoutError(f"The connection expired after {timeout} seconds")
+except socket.error as e:
+    print(f"Error to connect: {e}")
+finally:
+    client_socket.close()
+print('\n')
+
+#
+class MyWarning(Warning):
+    pass
+
+def my_function_2(x):
+    if x < 0:
+        warnings.warn("The argument x needs to be positive.", MyWarning)
+    return x**2
+
+result = my_function_2(-5)
+print(result)
 print('\n')
 
 #
