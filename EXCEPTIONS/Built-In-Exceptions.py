@@ -842,4 +842,29 @@ result = some_function(2, 3)
 print(result)
 print('\n')
 
-#
+#Base class for warnings about dubious runtime behavior.
+def calculate_speed(distance,time):
+    if time == 0:
+        warnings.warn("Dubious runtime behaviour: time is zero", RuntimeWarning)
+        return float('inf')
+    else:
+        return distance / time
+    
+speed = calculate_speed(10,0)
+print(speed)
+print('\n')
+
+#Base class for warnings about deprecated features when those warnings are intended for end users of applications that are written in Python.
+def deprecated_function():
+    warnings.warn("This function is deprecated and will be removed in the future", FutureWarning)
+    print("Excuting deprecated function...")
+
+deprecated_function()
+print('\n')
+
+#Base class for warnings about probable mistakes in module imports.Ignored by the default warning filters. Enabling the Python Development Mode shows this warning.
+try:
+    import non_existent_module
+except ImportError:
+    warnings.warn("Probable mistake in module import", ImportWarning)
+print('\n')
