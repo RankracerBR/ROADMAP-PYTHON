@@ -868,3 +868,25 @@ try:
 except ImportError:
     warnings.warn("Probable mistake in module import", ImportWarning)
 print('\n')
+
+#Base class for warnings related to Unicode.
+with open('meu_arquivo.txt', 'w') as f:
+    f.write('This is the content of the file')
+
+try:
+    with open('meu_arquivo.txt', 'r', encoding='latin-1') as f:
+        content = f.read()
+
+    try:
+        print(content)
+    except UnicodeWarning as e:
+        print(f"Catch a Unicode error: {e}")
+        print(content.encode('utf-8').decode('utf-8'))
+
+except FileNotFoundError as e:
+    print(f"Cannot open the file: {e}")
+
+f.close()
+print('\n')
+
+#
