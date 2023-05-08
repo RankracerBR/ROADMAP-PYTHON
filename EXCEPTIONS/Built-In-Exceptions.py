@@ -889,4 +889,92 @@ except FileNotFoundError as e:
 f.close()
 print('\n')
 
+#Base class for warnings related to encodings. See Opt-in EncodingWarning for details. New in version 3.10.
+def raise_encoding_warning():
+    warnings.warn("This is another example EncodingWarning.", EncodingWarning)
+
+warnings.warn("This is a generic warning.")
+
+class EncodingWarning(Warning):
+    pass
+
+raise_encoding_warning()
+print('\n')
+
+#Base class for warnings related to bytes and bytearray.
+class BytesWarning(Warning):
+    pass
+
+def raise_bytes_warning():
+    warnings.warn("This is an example BytesWarning.", BytesWarning)
+
+raise_bytes_warning()
+print('\n')
+
+#Base class for warnings related to resource usage. Ignored by the default warning filters. Enabling the Python Development Mode shows this warning. New in version 3.2.
+class ResourceWarning(Warning):
+    pass
+
+def raise_resource_warning():
+    warnings.warn("This is an example ResourceWarning.", ResourceWarning)
+
+raise_resource_warning()
+print('\n')
+
+#
+class ExceptionGroup(Exception):
+    def __init__(self, msg, excs):
+        self.msg = msg
+        self.exceptions = excs
+
+    def __str__(self):
+        exception_list = '\n'.join(str(exc) for exc in self.exceptions)
+        return f'{self.msg}\n\n{exception_list}'
+try:
+    raise ValueError('Invalid Value')
+except ValueError as exc1:
+    try:
+        raise TypeError('Invalid Type')
+    except TypeError as exc2:
+        exception_group = ExceptionGroup('Multiple Exceptions: ', [exc1, exc2])
+        raise exception_group
+    except None: ####
+        print()
+print('\n')
+
+#Both of these exception types wrap the exceptions in the sequence excs. The msg parameter must be a string. The difference between the two classes is that BaseExceptionGroup extends BaseException and it can wrap any exception, while ExceptionGroup extends Exception and it can only wrap subclasses of Exception. This design is so that except Exception catches an ExceptionGroup but not BaseExceptionGroup.
+class BaseExceptionGroup(Exception):
+    def __new__(cls,msg,excs):
+        if all(isinstance(exc, Exception) for exc in excs):
+            return ExceptionGroup(msg,excs)
+        else:
+            return super().__new__(cls)
+    
+    def __init__(self,msg,excs):
+        super().__init__(msg)
+        self.exceptions = excs
+        
+class ExceptionGroup(Exception):
+    def __init__(self, msg, excs):
+        if any(not isinstance(exc, Exception) for exc in excs):
+            raise TypeError("Contained exceptions must be subclasses of Exceptions.")
+        super().__init__(msg)
+        self.exceptions = excs
+    
+    def __str__(self):
+        exception_list = '\n'.join(str(exc) for exc in self.exceptions)
+        return f'{self.msg}\n\n{exception_list}'
+    
+try:
+    raise ValueError('Invalid Error')
+except ValueError as exc1:
+    try:
+        raise TypeError('Invalid Type')
+    except TypeError as exc2:
+        exception_group = BaseExceptionGroup("Multiple Exceptions: ", [exc1,exc2])
+        raise exception_group
+    except None:
+        print()
+print('\n')
+
 #
