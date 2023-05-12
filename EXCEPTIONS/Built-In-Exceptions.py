@@ -977,4 +977,156 @@ except ValueError as exc1:
         print()
 print('\n')
 
-#
+#The msg argument to the constructor. This is a read-only attribute.
+class Message:
+    def __init__(self, msg):
+        self._msg = msg
+
+    @property
+    def msg(self):
+        return self._msg
+
+message = Message("An example of message")
+
+print(message.msg)
+print('\n')
+
+#A tuple of the exceptions in the excs sequence given to the constructor. This is a read-only attribute.
+class CustomException(Exception):
+    def __init__(self,excs):
+        self.exceptions = tuple(excs)
+        
+    @property  
+    def exceptions(self):
+        return self.exceptions
+    
+personalized_exception = CustomException([ValueError("Erro 1"), TypeError("Erro 2")])
+personalized_exception.exceptions = ()
+print('\n')
+
+#Returns an exception group that contains only the exceptions from the current group that match condition, or None if the result is empty.
+class ExceptionGroup:
+    def __init__(self, exceptions):
+        self.exceptions = exceptions
+        
+    def subgroup(self, condition):
+        filtered_exceptions = []
+        for exception in self.exceptions:
+            if isinstance(condition, (type, tuple)):
+                if isinstance(exception, condition):
+                    filtered_exceptions.append(exception)
+            elif callable(condition):
+                if condition(exception):
+                    filtered_exceptions.append(exception)
+        
+        if len(filtered_exceptions) > 0:
+            return ExceptionGroup(filtered_exceptions)
+        else:
+            return None
+
+exceptions = [ValueError("Error 1"), TypeError("Error 2"), IndexError("Error 3")]
+
+def condition(exception):
+    return isinstance(exception, ValueError) or isinstance(exception, IndexError)
+
+exception_group = ExceptionGroup(exceptions)
+
+subgroup = exception_group.subgroup(condition)
+
+if subgroup is not None:
+    for exception in subgroup.exceptions:
+        print(exception)
+else:
+    print("Subgroup is None")
+print('\n')
+
+#Like subgroup(), but returns the pair (match, rest) where match is subgroup(condition) and rest is the remaining non-matching part.
+class ExceptionGroup:
+    def __init__(self, exceptions):
+        self.exceptions = exceptions
+
+    def subgroup(self, condition):
+        filtered_exceptions = []
+        for exception in self.exceptions:
+            if isinstance(condition, (type, tuple)):
+                if isinstance(exception, condition):
+                    filtered_exceptions.append(exception)
+            elif callable(condition):
+                if condition(exception):
+                    filtered_exceptions.append(exception)
+
+        if len(filtered_exceptions) > 0:
+            return ExceptionGroup(filtered_exceptions)
+        else:
+            return None
+
+    def split(self, condition):
+        match = self.subgroup(condition)
+        rest = [exception for exception in self.exceptions if exception not in match.exceptions]
+        return match, ExceptionGroup(rest)
+
+
+exceptions = [ValueError("Error 1"), TypeError("Error 2"), IndexError("Error 3")]
+
+def condition(exception):
+    return isinstance(exception, ValueError) or isinstance(exception, IndexError)
+
+exception_group = ExceptionGroup(exceptions)
+
+match, rest = exception_group.split(condition)
+
+if match is not None:
+    for exception in match.exceptions:
+        print("Match:", exception)
+else:
+    print("None match was found.")
+
+if rest is not None:
+    for exception in rest.exceptions:
+        print("Rest:", exception)
+else:
+    print("Nothing was found.")
+print('\n')
+
+#Returns an exception group with the same message, but which wraps the exceptions in excs.
+class ExceptionGroup(Exception):
+    def __init__(self,message):
+        self.message = message 
+        self.__traceback__ = None
+        self.__cause__ = None
+        self.__context__ = None
+        self.__notes__ = None
+    
+    def derive(self, excs):
+        new_group = self.__class__(self.message)
+        new_group.__traceback__ = self.__traceback__
+        new_group.__cause__ = self.__cause__
+        new_group.__context__ = self.__context__
+        new_group.__notes__ = self.__notes__
+        
+        for exc in excs:
+            new_exc = exc(self.message)
+            new_exc.__traceback__ = self.__traceback__
+            new_exc.__cause__ = self.__cause__
+            new_exc.__context__ = self.__context__
+            new_exc.__notes__ = self.__notes__
+            
+            new_group.__cause__ = new_exc
+        
+        return new_group
+    
+    class CustomException(ExceptionGroup):
+        pass
+    
+    original_exception = CustomException("Original exception message")
+    derived_exceptions = [ValueError, TypeError]
+    
+    new_exception_group = original_exception.derive(derived_exceptions)
+    print(isinstance(new_exception_group, ExceptionGroup))
+    print(isinstance(new_exception_group, CustomException))
+    
+    cause_exception = new_exception_group.__cause__
+    while cause_exception:
+        print(cause_exception.__class__.__name__)
+        cause_exception = cause_exception.__cause__
+print('\n')
