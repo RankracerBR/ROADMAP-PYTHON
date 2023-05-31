@@ -50,4 +50,78 @@ print('Length: ', length)
 print('Buffer Size (in bytes): ', buffer_size)
 print('\n')
 
+#“Byteswap” all items of the array. This is only supported for values which are 1, 2, 4, or 8 bytes in size; for other types of values, RuntimeError is raised. It is useful when reading data from a file written on a machine with a different byte order.
+def byteswap_array(arr):
+    if arr.itemsize not in (1,2,4,8):
+        raise RuntimeError("Byteswap is only supported for 1,2,4 or 8 bytes")
+    
+    arr.byteswap()
+
+my_array = array.array('i',[1,2,3,4,5])
+print("Before change the bytes: ", my_array)
+
+byteswap_array(my_array)
+print("After change the bytes: ", my_array)
+print('\n')
+
+#Return the number of occurrences of x in the array.
+def count_occurrences(arr, x):
+    count = arr.count(x)
+    return count
+
+my_array = array.array('i', [1,2,3,2,4,2,5])
+element = 2
+
+occurencies = count_occurrences(my_array,element)
+print("Occurrencies numbers of the element: ", element, "in array: ", occurencies)
+print('\n')
+
+#Append items from iterable to the end of the array. If iterable is another array, it must have exactly the same type code; if not, TypeError will be raised. If iterable is not an array, it must be iterable and its elements must be the right type to be appended to the array.
+def extend_array(arr,iterable):
+    if isinstance(iterable, array.array):
+        if arr.typecode != iterable.typecode:
+            raise TypeError("Type codes of the arrays do not match")
+        arr.extend(iterable)
+    else:
+        arr.extend(iterable)
+        
+my_array = array.array('i', [1,2,3])
+my_iterable = [4,5,6]
+
+extend_array(my_array, my_iterable)
+print("Array after the extension: ", my_array)
+print('\n')
+
+#Appends items from the string, interpreting the string as an array of machine values (as if it had been read from a file using the fromfile() method).New in version 3.2: fromstring() is renamed to frombytes() for clarity.
+def frombytes_example(s, typecode):
+    arr = array.array(typecode)
+    arr.frombytes(s)
+    
+    return arr
+
+my_string = b'\x01\x02\x03\x04\x05'
+my_typecode = 'B'
+
+my_array = frombytes_example(my_string,my_typecode)
+print("Resultant Array: ", my_array)
+print('\n')
+
+#Read n items (as machine values) from the file object f and append them to the end of the array. If less than n items are available, EOFError is raised, but the items that were available are still inserted into the array.
+def fromfile(arr, file_path, n):
+    try:
+        with open(file_path, 'rb') as file_obj:
+            values = array.array(arr.typecode)
+            values.fromfile(file_obj, n)
+            arr.extend(values)
+    except EOFError as e:
+        arr.extend(values[:e.args[0]])
+    except FileNotFoundError:
+        print(f"The file '{file_path}' cannot be found.")
+
+my_array = array.array('i')
+file_path = 'data.bin'
+fromfile(my_array, file_path, 4)
+print(my_array)
+print('\n')
+
 #
