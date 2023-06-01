@@ -124,4 +124,33 @@ fromfile(my_array, file_path, 4)
 print(my_array)
 print('\n')
 
+#Append items from the list. This is equivalent to for x in list: a.append(x) except that if there is a type error, the array is unchanged.
+def fromlist(arr,lst):
+    for item in lst:
+        try:
+            arr.append(item)
+        except TypeError:
+            pass
+    return arr
+
+a = [1,2,3]
+b = [4, 'five', 6]
+fromlist(a,b)
+print(a)
+print('\n')
+
+#Extends this array with data from the given unicode string. The array must be a type 'u' array; otherwise a ValueError is raised. Use array.frombytes(unicodestring.encode(enc)) to append Unicode data to an array of some other type.
+def fromunicode(arr,s):
+    if arr.typecode != 'u':
+        raise ValueError("This array must be of type 'u'")
+    
+    if isinstance(s, str):
+        s = s.encode('utf-8')
+
+a = array.array('u','hello')
+s = ' world'
+fromunicode(a, s)
+print(a)
+print('\n')
+
 #
