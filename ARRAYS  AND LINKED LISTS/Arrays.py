@@ -153,4 +153,65 @@ fromunicode(a, s)
 print(a)
 print('\n')
 
+#Return the smallest i such that i is the index of the first occurrence of x in the array. The optional arguments start and stop can be specified to search for x within a subsection of the array. Raise ValueError if x is not found.
+def index(array, x, start=0, stop=None):
+    if stop is None:
+        stop = len(array)
+    
+    for i in range(start, stop):
+        if array[i] == x:
+            return i
+
+    raise ValueError(f'{x} was not found in the list')
+
+lista = [1,2,3,4,5,4,3,2,1]
+x = 4
+start = 2
+stop = 7
+
+try:
+    result = index(lista, x, start, stop)
+    print(f'The index of the first occurrency of {x} between the indexes {start} and {stop} is: {result}')
+except ValueError as e:
+    print(e)
+print('\n')
+
+#Insert a new item with value x in the array before position i. Negative values are treated as being relative to the end of the array.
+def insert(arr, i, x):
+    if i < 0:
+        i += len(arr)
+    
+    arr.insert(i, x)
+
+my_array = [1,2,3,4,5]   
+insert(my_array, 2,10) #2 = position in the list, 10 = the number in the position[2]
+print(my_array)
+
+insert(my_array, -1,20)
+print(my_array)
+print('\n')
+
+#Removes the item with the index i from the array and returns it. The optional argument defaults to -1, so that by default the last item is removed and returned.
+def pop(arr, i=-1):
+    return arr.pop(i)
+
+my_array = [1,2,3,4,5]
+removed_item = pop(my_array)
+print(my_array)
+print(removed_item)
+
+removed_item = pop(my_array, 1)
+print(my_array)
+print(removed_item)
+print('\n')
+
+#Remove the first occurrence of x from the array.
+def remove(arr, x):
+    arr.remove(x)
+
+my_array = [1,2,3,4,5]
+remove(my_array, 3)
+print(my_array)
+print('\n')
+
 #
