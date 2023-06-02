@@ -1,4 +1,7 @@
+'''Imports'''
 import array
+import numpy as np
+
 
 #A new array whose items are restricted by typecode, and initialized from the optional initializer value, which must be a list, a bytes-like object, or iterable over elements of the appropriate type.
 my_array = array.array('i',[1,2,3,4,5])
@@ -214,4 +217,52 @@ remove(my_array, 3)
 print(my_array)
 print('\n')
 
-#
+#Reverse the order of the items in the array.
+def reverse(arr):
+    return arr[::-1]
+
+my_array = [1,2,3,4,5]
+reversed_array = reverse(my_array)
+print(reversed_array)
+print('\n')
+
+#Convert the array to an array of machine values and return the bytes representation (the same sequence of bytes that would be written to a file by the tofile() method.)New in version 3.2: tostring() is renamed to tobytes() for clarity.
+def tobytes(arr):
+    if isinstance(arr, array.array):
+        return arr.tobytes
+    else:
+        raise TypeError("INput must be an array")
+
+my_array = array.array('i',[1,2,3,4,5])
+bytes_representation = tobytes(my_array)
+print(bytes_representation)
+print('\n')
+
+#Write all items (as machine values) to the file object f.
+def tofile(arr, file_obj):
+    if isinstance(arr, array.array):
+        arr.tofile(file_obj)
+    else:
+        raise TypeError("Input must be an array")
+    
+my_array = array.array('i', [1,2,3,4,5])
+file_path = "Output.bin"
+
+with open(file_path, "wb") as file_obj:
+    tofile(my_array, file_obj)
+
+#Convert the array to an ordinary list with the same items.
+array = np.array([1,2,3,4,5])
+lista = array.tolist()
+
+print("Array: ", array)
+print("List: ", lista)
+print('\n')
+
+#Convert the array to a unicode string. The array must be a type 'u' array; otherwise a ValueError is raised. Use array.tobytes().decode(enc) to obtain a unicode string from an array of some other type.
+array_2 = np.array([72,101,108,108,111])
+
+unicode_string = array_2.tobytes().decode('utf-8')
+
+print("Array: ", array_2)
+print("Unicode String: ", unicode_string)
