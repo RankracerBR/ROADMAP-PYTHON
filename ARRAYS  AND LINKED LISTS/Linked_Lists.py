@@ -43,6 +43,7 @@ print(list1)
 print('\n')
 
 #4
+#queue = fila
 queue = deque()
 
 queue.append("Mary")
@@ -57,6 +58,7 @@ queue.popleft()
 print(queue)
 
 #5
+#stacks = pilha
 history = deque()
 
 history.appendleft("https://realpython.com/")
@@ -74,37 +76,145 @@ print(history)
 #6
 class Node:
     def __init__(self, data):
-        self.data = data 
+        self.data = data
         self.next = None
-        
+
     def __repr__(self):
         return self.data
-    
+
 class LinkedList:
     def __init__(self):
         self.head = None
-    
+
     def __repr__(self):
         node = self.head
         nodes = []
         while node is not None:
             nodes.append(node.data)
-            node = node.next()
+            node = node.next
         nodes.append("None")
         return " -> ".join(nodes)
 
-list_2 = LinkedList()
-print(list_2)
+list2 = LinkedList()
+print(list2)
 
 first_node = Node("a")
-list_2.head = first_node
-print(first_node)
+list2.head = first_node
+print(list2)
 
 second_node = Node("b")
 third_node = Node("c")
 first_node.next = second_node
 second_node.next = third_node
-print(first_node)
-print(second_node)
+print(list2)
+print('\n')
 
 #7
+class Node2:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    
+    def __repr__(self):
+        return self.data
+     
+class LinkedList2:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node2(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node2(data=elem)
+                node = node.next
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+            
+list3 = LinkedList2(["a", "b", "c", "d", "e"])
+
+for node in list3:
+    print(node)
+
+print('\n')
+#8
+class Node3:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    
+    def __repr__(self):
+        return self.data
+     
+class LinkedList3:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node3(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node3(data=elem)
+                node = node.next
+
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+            
+    def add_first(self,node):
+        node.next = self.head
+        self.head = node
+        
+list4 = LinkedList3()
+
+list4.add_first(Node3("b"))
+for node in list4:
+    print(node)
+
+list4.add_first(Node3("a"))
+for node in list4:
+    print(node)
+
+#9
+class Node4:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+    def __repr__(self):
+        return self.data
+        
+class LinkedList4:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node4(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node4(data = elem)
+                node = node.next
+    
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next     
+    
+    def add_last(self,node):
+        if self.head is None:
+            self.head = node
+            return 
+        for current_node in self:
+            pass
+        current_node.next
+
+list5 = LinkedList4(["a","b","c","d"])
+
+list5.add_last(Node4("e"))
+print(list5)
+
+list5.add_last(Node4("f"))
+print(list5)
