@@ -214,7 +214,124 @@ class LinkedList4:
 list5 = LinkedList4(["a","b","c","d"])
 
 list5.add_last(Node4("e"))
-print(list5)
+for node in list5:
+    print(node)
 
 list5.add_last(Node4("f"))
-print(list5)
+for node in list5:
+    print(node)
+print('\n')
+
+#10
+class Node5:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    
+    def __repr__(self):
+        return self.data
+
+class LinkedList5:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node5(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node5(data = elem)
+                node = node.next
+    
+    def __iter__(self):
+        node = self.head 
+        while node is not None:
+            yield node
+            node = node.next
+    
+    def add_after(self, target_node_data, new_node):
+        if self.head is None:
+            raise Exception("List is empty")
+        
+        for node in self:
+            if node.data == target_node_data:
+                new_node.next = node.next
+                node.next = new_node
+                return
+        
+        raise Exception("Node with data '%s' not found" % target_node_data)
+    
+
+list6 = LinkedList5()
+#list6.add_after("a",Node5("b"))
+
+list6 = LinkedList5(['a','b','c','d'])
+for node in list6:
+    print(node)
+
+list6.add_after("c",Node5("cc"))
+for node in list6:
+    print(node)
+    
+#list6.add_after("f",Node5("g"))
+#for node in list6:
+    #print(node)
+print('\n')
+
+#11
+class Node6:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    
+    def __repr__(self):
+        return self.data
+
+class LinkedList6:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node5(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node5(data = elem)
+                node = node.next
+    
+    def __iter__(self):
+        node = self.head 
+        while node is not None:
+            yield node
+            node = node.next
+
+    def add_before(self, target_node_data, new_node):
+        if self.head is None:
+            raise Exception("List is empty")
+
+        if self.head.data == target_node_data:
+            return self.add_first(new_node)
+
+        prev_node = self.head
+        for node in self:
+            if node.data == target_node_data:
+                prev_node.next = new_node
+                new_node.next = node
+                return
+            prev_node = node
+
+        raise Exception("Node with data '%s' not found" % target_node_data)
+
+    def add_first(self,new_node):
+        new_node.next = self.head
+        self.head = new_node
+
+#list7 = LinkedList6()
+#list7.add_before("a", Node6("a"))
+
+list7= LinkedList6(["b","c"])
+for node in list7:
+    print(node)
+
+list7.add_before("b",Node6("a"))
+for node in list7:
+    print(node)
+    
+#12
+
