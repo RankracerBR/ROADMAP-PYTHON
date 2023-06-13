@@ -240,23 +240,23 @@ class LinkedList5:
             for elem in nodes:
                 node.next = Node5(data = elem)
                 node = node.next
-    
+
     def __iter__(self):
         node = self.head 
         while node is not None:
             yield node
             node = node.next
-    
+
     def add_after(self, target_node_data, new_node):
         if self.head is None:
             raise Exception("List is empty")
-        
+     
         for node in self:
             if node.data == target_node_data:
                 new_node.next = node.next
                 node.next = new_node
                 return
-        
+     
         raise Exception("Node with data '%s' not found" % target_node_data)
     
 
@@ -289,10 +289,10 @@ class LinkedList6:
     def __init__(self, nodes=None):
         self.head = None
         if nodes is not None:
-            node = Node5(data = nodes.pop(0))
+            node = Node6(data = nodes.pop(0))
             self.head = node
             for elem in nodes:
-                node.next = Node5(data = elem)
+                node.next = Node6(data = elem)
                 node = node.next
     
     def __iter__(self):
@@ -332,6 +332,114 @@ for node in list7:
 list7.add_before("b",Node6("a"))
 for node in list7:
     print(node)
-    
-#12
+print('\n')
 
+#12
+class Node7:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    
+    def __repr__(self):
+        return self.data
+    
+class LinkedList7:
+    def __init__(self, nodes=None):
+        self.head = None
+        if nodes is not None:
+            node = Node7(data = nodes.pop(0))
+            self.head = node
+            for elem in nodes:
+                node.next = Node7(data = elem)
+                node = node.next
+    
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+    
+    def remove_node(self, target_node_data):
+        if self.head is None:
+            raise Exception("List is empty")
+        
+        if self.head.data == target_node_data:
+            self.head = self.head.next
+            return
+        
+        previous_node = self.head
+        for node in self:
+            if node.data == target_node_data:
+                previous_node.next = node.next
+                return
+            previous_node = node
+        
+        raise Exception("Node with data '%s' not found" % target_node_data)
+
+list8 = LinkedList7()
+#list8.remove_node("a")
+
+list8 = LinkedList7(["a","b","c","d","e"])
+for node in list8:
+    print(node)
+
+list8.remove_node("e")
+for node in list8:
+    print(node)
+
+list8.remove_node("c")
+for node in list8:
+    print(node)
+
+list8.remove_node("a")
+for node in list8:
+    print(node)
+print('\n')
+
+#13
+class Node8:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+    def __repr__(self):
+        return self.data
+
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+        
+    def traverse(self, starting_point = None):
+        if starting_point is None:
+            starting_point = self.head
+        node = starting_point
+        while node is not None and (node.next != starting_point):
+            yield node
+            node = node.next
+        yield node
+
+    def print_list(self, starting_point = None):
+        nodes = []
+        for node in self.traverse(starting_point):
+            nodes.append(str(node))
+        print(" -> ".join(nodes))
+
+circular_list = CircularLinkedList()
+circular_list.print_list()
+
+a = Node8("a")
+b = Node8("b")
+c = Node8("c")
+d = Node8("d")
+
+a.next = b
+b.next = c
+c.next = d
+d.next = a
+
+circular_list.head = a
+circular_list.print_list()
+
+circular_list.print_list(b)
+
+circular_list.print_list(d)
