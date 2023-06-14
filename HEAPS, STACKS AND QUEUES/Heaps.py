@@ -1,4 +1,5 @@
 import heapq
+import itertools
 
 #Push the value item onto the heap, maintaining the heap invariant.
 
@@ -62,3 +63,76 @@ merged_iterable = heapq.merge(iterable1,iterable2)
 
 for value in merged_iterable:
     print(value)
+print('\n')
+
+#Return a list with the n largest elements from the dataset defined by iterable. key, if provided, specifies a function of one argument that is used to extract a comparison key from each element in iterable (for example, key=str.lower). Equivalent to: sorted(iterable, key=key, reverse=True)[:n].
+
+numbers = [10,5,8,20,3,15]
+
+largest_numbers = heapq.nlargest(3, numbers)
+
+print("Largest Numbers: ", largest_numbers)
+print('\n')
+
+#Return a list with the n smallest elements from the dataset defined by iterable. key, if provided, specifies a function of one argument that is used to extract a comparison key from each element in iterable (for example, key=str.lower). Equivalent to: sorted(iterable, key=key)[:n].
+
+numbers2 = [10,5,8,20,3,15]
+
+smallest_element3 = heapq.nsmallest(3, numbers2)
+
+print("Smallest Numbers: ", smallest_element3)
+print('\n')
+
+#A heapsort can be implemented by pushing all values onto a heap and then popping off the smallest values one at a time:
+
+def heapsort(iterable):
+    h = []
+    for value in iterable:
+        heapq.heappush(h,value)
+    return [heapq.heappop(h) for i in range(len(h))]
+
+heapsort_name = heapsort([1,3,5,7,9,2,4,6,8,0])
+
+for value in heapsort_name:
+    print(value)
+print('\n')
+
+#Heap elements can be tuples. This is useful for assigning comparison values (such as task priorities) alongside the main record being tracked:
+
+h = []
+heapq.heappush(h,(5,'write code'))
+heapq.heappush(h,(7, 'released product'))
+heapq.heappush(h,(1, 'write spec'))
+heapq.heappush(h,(3, 'create tests'))
+delete = heapq.heappop(h)
+print(delete)
+print('\n')
+
+#
+pq = []
+entry_finder = {}
+REMOVED = '<removed-task>'
+counter = itertools.count()
+
+def add_task(task, priority = 0):
+    'Add a new task or update the priority of an existing task.'
+    if task in entry_finder:
+        itertools.remove_task(task)
+    count = next(counter)
+    entry = [priority, count, task]
+    entry_finder[task] = entry
+    heapq.heappush(pq, entry)
+
+def remove_task(task):
+    'Mark an existing task as REMOVED. Raise KeyError if not found.'
+    entry = entry_finder.pop(task)
+    entry[-1] = REMOVED
+    
+def pop_task():
+    'Remove and return the lowest priority task. Raise KeyError if empty.'
+    while pq:
+        priority, count, task = heapq.heappop(pq)
+        if task is not REMOVED:
+            del entry_finder[task]
+            return task
+    raise KeyError('pop from an empty priority queue')
