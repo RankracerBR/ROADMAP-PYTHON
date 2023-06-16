@@ -108,7 +108,7 @@ delete = heapq.heappop(h)
 print(delete)
 print('\n')
 
-#
+#The remaining challenges revolve around finding a pending task and making changes to its priority or removing it entirely. Finding a task can be done with a dictionary pointing to an entry in the queue.Removing the entry or changing its priority is more difficult because it would break the heap structure invariants. So, a possible solution is to mark the entry as removed and add a new entry with the revised priority:
 pq = []
 entry_finder = {}
 REMOVED = '<removed-task>'
