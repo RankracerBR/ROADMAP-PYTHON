@@ -33,3 +33,16 @@ print(mystack2)
 
 #3
 mystack3 = LifoQueue()
+
+mystack3.put('a')
+mystack3.put('b')
+mystack3.put('c')
+
+print(mystack3)
+
+print(mystack3.get())
+print(mystack3.get())
+print(mystack3.get())
+
+#mystack3.get_nowait()
+print('\n')
