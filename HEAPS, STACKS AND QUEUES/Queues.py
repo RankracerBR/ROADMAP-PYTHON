@@ -196,7 +196,7 @@ task.join()
 print("All the tasks are fisinhed")
 print('\n')
 
-#
+#Return the approximate size of the queue. Note, qsize() > 0 doesn’t guarantee that a subsequent get() will not block.
 
 queue5 = SimpleQueue()
 
@@ -217,4 +217,90 @@ size = queue5.qsize()
 print("Size of the queue: ", size)
 print('\n')
 
+#Return True if the queue is empty, False otherwise. If empty() returns False it doesn’t guarantee that a subsequent call to get() will not block.
+queue6 = SimpleQueue()
+
+if queue6.empty():
+    print("The queue is empty.")
+else:
+    print("The queue is not empty.")
+    
+queue6.put("Item 1")
+
+if queue6.empty():
+    print("The queue is empty.")
+else:
+    print("The queue is not empty.")
+print('\n')
+
 #
+
+queue7 = SimpleQueue()
+
+queue7.put("Item 1")
+queue7.put("Item 2")
+queue7.put("Item 3")
+
+while not queue7.empty():
+    item = queue7.get()
+    print("Obtained item: ", item)
+print('\n')
+
+#Equivalent to put(item, block=False), provided for compatibility with Queue.put_nowait().
+queue8 = SimpleQueue()
+
+queue8.put_nowait("Item 1")
+queue8.put_nowait("Item 2")
+queue8.put_nowait("Item 3")
+
+try:
+    queue8.put_nowait("Item 4")
+except queue8.Full:
+    print("The queue is full. Cannot add more items.")
+    
+while not queue8.empty:
+    item = queue8.get()
+    print("Obtained item: ", item)
+print('\n')
+
+#Remove and return an item from the queue. If optional args block is true and timeout is None (the default), block if necessary until an item is available. If timeout is a positive number, it blocks at most timeout seconds and raises the Empty exception if no item was available within that time. Otherwise (block is false), return an item if one is immediately available, else raise the Empty exception (timeout is ignored in that case).
+
+queue9 = SimpleQueue()
+
+queue9.put(1)
+queue9.put(2)
+queue9.put(3)
+
+# Example 1: Blocking until an item is available
+item = queue9.get(block=True)
+print("Got item: ", item)
+
+# Example 2: Blocking for a limited time
+try:
+    item = queue9.get(block=True, timeout=2)
+    print("Got item: ", item)
+except queue9.empty:
+    print("No item available within specific timeout.")
+
+# Example 3: Non-blocking
+try:
+    item = queue9.get(block=False)
+    print("Got item: ", item)
+except queue9.empty:
+    print("No item available immediately.")
+print('\n')
+
+#Equivalent to get(False).
+
+queue10 = SimpleQueue()
+
+queue10.put(1)
+queue10.put(2)
+queue10.put(3)
+
+while not queue10.empty():
+    try:
+        item = queue10.get_nowait()
+        print(f"Rerieved Item: {item}")
+    except:
+        print("Queue is empty")
