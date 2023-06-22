@@ -1,6 +1,9 @@
 import string
 from collections import Counter
 from string import printable
+import sys
+
+print(sys.hash_info.algorithm)
 
 #1
 glossary = {"BFDL": "Benevolent Dictator For Life"}
@@ -126,3 +129,27 @@ print(hash_function_4("This is very long and slow.!" * 1_000_00) % 100)
 print('\n')
 
 #10
+
+plot(distribute(printable, 6, hash_function_4))
+print('\n')
+
+#11
+print(hash_function_4("a"),hash_function_4("b"),hash_function_4("c"))
+print('\n')
+
+#12
+def hash_function_5(key):
+    return sum(
+        index * ord(character)
+        for index, character in enumerate(repr(key).lstrip("'"), 1) #The call to str.lstrip() will only affect a string if it starts with the specified prefix to strip.
+    )
+    
+print(hash_function_5("a"),hash_function_5("b"),hash_function_5("c"))
+plot(distribute(printable,6, hash_function_5))
+
+#13
+def test_should_always_pass():
+    assert 2 + 2 == 4, 'This is just a dummy test'
+
+#14
+
