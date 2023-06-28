@@ -63,3 +63,18 @@ for i in range(100):
         ("X" * num_pairs) + ("." * num_empty)
     )
     hash_table4[i] = i
+    
+#7 
+hash_table5 = HashTable.from_dict({
+    "hola":"hello",
+    98.6: 37,
+    False: True
+})
+
+print(hash_table5.keys)
+print(hash_table5.values)
+print(hash_table5.pairs)
+
+print(hash_table5.pairs == list(zip(hash_table5.keys,hash_table5.values)))
+
+#8

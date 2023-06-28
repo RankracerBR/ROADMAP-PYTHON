@@ -15,13 +15,10 @@ class HashTable:
             hash_table[key] = value
         return hash_table
 
-    def __init__(self, capacity = 8, load_factor_threshold=0.6):
+    def __init__(self, capacity):
         if capacity < 1:
             raise ValueError("Capacity must be a positive number")
-        if not (0 < load_factor_threshold <= 1):
-            raise ValueError("Load factor must be a number between (0, 1)")
-        self._buckets = [deque() for _ in range(capacity)]
-        self._load_factor_threshold = load_factor_threshold
+        self._slots = capacity * [None]
 
     def __len__(self):
         return len(self.pairs)
@@ -42,20 +39,17 @@ class HashTable:
             raise KeyError(key)
 
     def __setitem__(self, key, value):
-        if self.load_factor >= len._load_factor_threshold:
-            self._resize_and_rehash
-        
         for index, pair in self._probe(key):
-            if pair is DELETED: continue
+            if pair is DELETED:
+                continue
             if pair is None or pair.key == key:
                 self._slots[index] = Pair(key, value)
                 break
         else:
-            self._resize_and_rehash()
-            self[key] = value
-            
+            raise MemoryError("Not enough capacity")
+
     def __getitem__(self, key):
-        for _ , pair in self._probe(key):
+        for _, pair in self._probe(key):
             if pair is None:
                 raise KeyError(key)
             if pair is DELETED:
@@ -100,7 +94,7 @@ class HashTable:
 
     @property
     def pairs(self):
-        return {pair for bucket in self._buckets for pair in bucket}
+        return {pair for pair in self._slots if pair not in (None, DELETED)}
 
     @property
     def values(self):
@@ -112,7 +106,7 @@ class HashTable:
 
     @property
     def capacity(self):
-        return len(self._buckets)
+        return len(self._slots)
 
     def _index(self, key):
         return hash(key) % self.capacity
@@ -122,13 +116,3 @@ class HashTable:
         for _ in range(self.capacity):
             yield index, self._slots[index]
             index = (index + 1) % self.capacity
-    
-    def _resize_and_rehash(self):
-        copy = HashTable(capacity=self.capacity * 2)
-        for key, value in self.pairs:
-            copy[key] = value
-        self._buckets = copy._buckets
-
-    @property
-    def load_factor(self):
-        return len(self) / self.capacity
