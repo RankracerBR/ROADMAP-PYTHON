@@ -55,7 +55,7 @@ print(hash_table3._slots[25])
 
 #6
 hash_table4 = HashTable(capacity=1)
-for i in range(30):
+for i in range(100):
     num_pairs = len(hash_table4)
     num_empty = hash_table4.capacity - num_pairs
     print(

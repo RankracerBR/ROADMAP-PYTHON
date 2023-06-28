@@ -1,7 +1,7 @@
 from typing import NamedTuple, Any
+from collections import deque
 
 DELETED = object()
-
 
 class Pair(NamedTuple):
     key: Any
@@ -15,10 +15,13 @@ class HashTable:
             hash_table[key] = value
         return hash_table
 
-    def __init__(self, capacity = 8):
+    def __init__(self, capacity = 8, load_factor_threshold=0.6):
         if capacity < 1:
             raise ValueError("Capacity must be a positive number")
-        self._slots = capacity * [None]
+        if not (0 < load_factor_threshold <= 1):
+            raise ValueError("Load factor must be a number between (0, 1)")
+        self._buckets = [deque() for _ in range(capacity)]
+        self._load_factor_threshold = load_factor_threshold
 
     def __len__(self):
         return len(self.pairs)
@@ -39,6 +42,9 @@ class HashTable:
             raise KeyError(key)
 
     def __setitem__(self, key, value):
+        if self.load_factor >= len._load_factor_threshold:
+            self._resize_and_rehash
+        
         for index, pair in self._probe(key):
             if pair is DELETED: continue
             if pair is None or pair.key == key:
@@ -49,7 +55,7 @@ class HashTable:
             self[key] = value
             
     def __getitem__(self, key):
-        for _, pair in self._probe(key):
+        for _ , pair in self._probe(key):
             if pair is None:
                 raise KeyError(key)
             if pair is DELETED:
@@ -94,10 +100,7 @@ class HashTable:
 
     @property
     def pairs(self):
-        return {
-            pair for pair in self._slots
-            if pair not in (None, DELETED)
-        }
+        return {pair for bucket in self._buckets for pair in bucket}
 
     @property
     def values(self):
@@ -109,7 +112,7 @@ class HashTable:
 
     @property
     def capacity(self):
-        return len(self._slots)
+        return len(self._buckets)
 
     def _index(self, key):
         return hash(key) % self.capacity
@@ -124,4 +127,8 @@ class HashTable:
         copy = HashTable(capacity=self.capacity * 2)
         for key, value in self.pairs:
             copy[key] = value
-        self._slots = copy._slots
+        self._buckets = copy._buckets
+
+    @property
+    def load_factor(self):
+        return len(self) / self.capacity
