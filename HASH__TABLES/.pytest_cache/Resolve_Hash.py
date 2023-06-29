@@ -76,5 +76,3 @@ print(hash_table5.values)
 print(hash_table5.pairs)
 
 print(hash_table5.pairs == list(zip(hash_table5.keys,hash_table5.values)))
-
-#8
