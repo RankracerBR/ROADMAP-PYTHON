@@ -40,10 +40,12 @@ class BSTNode:
         if self == None:
             return self
         if val < self.val:
-            self.left = self.left.delete(val)
+            if self.left:
+                self.left = self.left.delete(val)
             return self
         if val > self.val:
-            self.right = self.right.delete(val)
+            if self.right:
+                self.right = self.right.delete(val)
             return self
         if self.right == None:
             return self.right
@@ -95,5 +97,36 @@ class BSTNode:
         if self.val is not None:
             vals.append(self.val)
     
-    def main():
-        pass
+
+nums = [12,6,18,19,21,11,3,5,4,24,18]
+bst = BSTNode()
+for num in nums:    
+    bst.insert(num)
+
+print('>Preorder')
+print(bst.preorder([]))
+print('#')
+print('\n')   
+print('>Postorder')
+print(bst.postorder([]))
+print('#')
+print('\n')    
+print('>Inorder')
+print(bst.inorder([]))
+print('#')
+print('\n')    
+nums = [2,6,20]
+print("Deleting "+ str(nums))
+for num in nums:
+    bst.delete(num)
+print('#')
+print('\n')
+        
+print('4 exists: ')
+print(bst.exists(4))
+print('2 exists: ')
+print(bst.exists(2))
+print('12 exists: ')
+print(bst.exists(12))
+print('18 exists: ')
+print(bst.exists(18))
