@@ -6,7 +6,7 @@ new_number = integer_number + float_number
 
 print(f'Value:{new_number}')
 print(f'{type(new_number)}')
-#Python sempre vai converte os menores valores para valores maiores, no caso o float é maior que o int
+#Python will always convert lower values to higher values, in this case float is higher than int
 
 #Addition of string and integer
 num_string = '12'

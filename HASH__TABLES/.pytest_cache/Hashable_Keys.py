@@ -37,26 +37,25 @@ class Person:
     def _fields(self):
         return self.name, self.date_of_birth, self.married
 
-print(hash(Person("Joe")))
+#print(hash(Person("Joe")))
 
-print(hash(Person("Augusto")))
+#print(hash(Person("Augusto")))
 
-print(hash(Person("Joe")) == hash(Person("Joe")))
+#print(hash(Person("Joe")) == hash(Person("Joe")))
 
-alice = Person("Alice")
-bob = Person("Bob")
+#alice = Person("Alice")
+#bob = Person("Bob")
 
-employess =  {alice: "project manager", bob:"engineer"}
+#employess =  {alice: "project manager", bob:"engineer"}
 
-print(employess[bob])
+#print(employess[bob])
 
-print(employess[Person("Bob")])
+#print(employess[Person("Bob")])
 
-bob.name = "Bobby"
+#bob.name = "Bobby"
 
 #employess[bob] KeyError: <__main__.Person object at 0x7f607e325e40>
 
 #employess[Person("Bobby")]
 
 #employess[Person("Bob")]
-

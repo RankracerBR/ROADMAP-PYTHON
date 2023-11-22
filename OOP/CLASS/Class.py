@@ -88,3 +88,6 @@ jim = Dog("Jim", 5, "Bulldog")
 print(buddy.speak("Yap"))
 print(jim.speak("Woof"))
 print(jack.speak("Woof"))
+
+#
+print(type(miles))
