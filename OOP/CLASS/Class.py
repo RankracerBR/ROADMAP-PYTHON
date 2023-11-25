@@ -28,6 +28,36 @@ class Dog2:
 
 Dog2()
 
+#
+class Dog3:
+    species = "Canis familiaris"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        return f"{self.name} is {self.age} years old"
+
+    def speak(self, sound):
+        return f"{self.name} barks: {sound}"
+
+#
+class JackRussellTerrier(Dog3):
+    pass
+
+class Dachshund(Dog3):
+    pass
+
+class Bulldog(Dog3):
+    pass
+
+#
+class JackRussellTerrier2(Dog3):
+    def speak(self, sound="Arf"):
+        return super().speak(sound)
+
+
 #Two distinct objects in memory
 a = Dog2()
 b = Dog2()
@@ -90,4 +120,19 @@ print(jim.speak("Woof"))
 print(jack.speak("Woof"))
 
 #
+
+miles = JackRussellTerrier("Miles", 4)
+buddy = Dachshund("Buddy", 9)
+jack = Bulldog("Jack", 3)
+jim = Bulldog("Jim", 5)
+
+
 print(type(miles))
+
+print(isinstance(miles, Dog))
+
+print(isinstance(miles, Bulldog))
+
+#
+miles = JackRussellTerrier2("Miles",4)  
+print(miles.speak())
