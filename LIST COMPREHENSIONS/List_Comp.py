@@ -1,5 +1,6 @@
 #Libs/modules
-
+import timeit
+import random
 
 
 #Functions
@@ -9,6 +10,15 @@ def get_price_with_tax(txn):
 def is_consonant(letter):
     vowels = 'aeiou'
     return letter.isalpha() and letter.lower() not in vowels
+
+def get_price(price):
+    return price if price > 0 else 0
+
+def get_weather_data():
+    return random.randrange(90, 110)
+
+def get_prices_with_map():
+    return list(map(get_price, txns))
 
 #Variables
 squares = []
@@ -49,3 +59,64 @@ sentence2 = 'The rocket, who was named Ted, came back \ from mars because he mis
 consonants = [i for i in sentence2 if is_consonant]
 
 print(consonants)
+print('\n')
+
+#
+original_prices = [1.25,-9.45, 10.22, 3.78, -5.92,1.16]
+prices = [i if i > 0 else 0 for i in original_prices]
+print(prices)
+print('\n')
+
+princes = [get_price(i) for i in original_prices]
+print(prices)
+print('\n')
+
+#
+quote = "Life, uh, finds a way"
+unique_vowels = {i for i in quote if i in 'aeiou'}
+print(unique_vowels)
+print('\n')
+
+#
+hot_temps = [temp for _ in range(20) if (temp := get_weather_data()) >= 100]
+print(hot_temps)
+print('\n')
+
+#
+cities = ['Austin', 'Tacoma', 'Topeka', 'Sacramento', 'Charlotte']
+temps = {city: [0 for _ in range(7)] for city in cities}
+print(temps)
+print('\n')
+
+matrix = [[i for i in range(5)] for _ in range(6)]
+print(matrix)
+print('\n')
+
+#
+flat = [num for row in matrix for num in row]
+print(flat)
+print('\n')
+
+#
+matrix = [
+    [0,0,0],
+    [1,1,1],
+    [2,2,2],
+]
+
+flat = []
+
+for row in matrix:
+    for num in row:
+        flat.append(num)
+
+print(flat)
+
+#
+print(sum(i * i for i in range(1000000000))) #Dont run this
+
+#
+print(sum(map(lambda i: i*i, range(1000000000))))
+
+#
+print(timeit.timeit(get_))
