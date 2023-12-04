@@ -135,12 +135,14 @@ while True:
 #
 
 pal_gen = infinite_palindromes()
+print('\n')
 '''
 for i in pal_gen:
     digits = len(str(i))
     pal_gen.send(10 ** (digits))
 '''
 
+'''
 for i in pal_gen:
     print(i)
     digits = len(str(i))
@@ -148,3 +150,23 @@ for i in pal_gen:
         #pal_gen.throw(ValueError("We don't like large palindromes"))
         pal_gen.close()
     pal_gen.send(10 ** (digits))
+'''
+
+#
+
+file_name = "GENERATOR EXPRESSIONS/techcrunch.csv"
+lines = (line for line in open(file_name)) #Reads in each line of the file.
+list_line = (s.rstrip().split(",") for s in lines) #Splits each line into values and puts the values into a list.
+cols = next(list_line) #Uses next() to store the column names in a list.
+company_dict = (dict(zip(cols, data)) for data in list_line) #Creates dictionaries and unites them with a zip() call
+                                                             #The keys are the column names cols from line 4.
+                                                            #The values are the rows in list form, created in line 3.
+
+funding = (                                                 #Gets each company’s series A funding amounts. It also filters out any other raised amount. 
+    int(company_dict["raisedAmt"])
+    for company_dict in company_dict
+    if company_dict["round"] == "a"
+)
+
+total_series_a = sum(funding) #Begins the iteration process by calling sum() to get the total amount of series A funding found in the CSV.
+print(f"Total series a Fundraising: ${total_series_a}")
